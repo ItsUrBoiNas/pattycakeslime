@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fredoka, Nunito } from "next/font/google";
+import { Fredoka, Nunito, Titan_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,6 +8,12 @@ const fredoka = Fredoka({
   variable: "--font-fredoka",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const titanOne = Titan_One({
+  variable: "--font-titan-one",
+  weight: "400",
+  subsets: ["latin"],
 });
 
 const nunito = Nunito({
@@ -31,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${fredoka.variable} ${nunito.variable} antialiased bg-off-white text-foreground`}
+        className={`${fredoka.variable} ${nunito.variable} ${titanOne.variable} antialiased bg-background text-foreground`}
       >
         <Navbar />
         <main>{children}</main>

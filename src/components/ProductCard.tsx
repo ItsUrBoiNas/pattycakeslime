@@ -2,40 +2,37 @@
 
 import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart, Zap, Check } from "lucide-react";
 import Image from "next/image";
 
 interface ProductCardProps {
     name: string;
     price: number;
-    originalPrice?: number;
     image: string;
-    rating?: number;
+    description?: string;
     tag?: string;
-    color: string;
+    isPreMade?: boolean;
 }
 
 export default function ProductCard({
     name,
     price,
-    originalPrice,
     image,
-    rating = 5,
+    description,
     tag,
-    color,
 }: ProductCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
+    const [makeItLive, setMakeItLive] = useState(false);
+    const [added, setAdded] = useState(false);
 
     // Mouse position for 3D tilt
     const mouseX = useMotionValue(0.5);
     const mouseY = useMotionValue(0.5);
 
-    // Smooth spring physics for the tilt
     const springX = useSpring(mouseX, { stiffness: 150, damping: 20 });
     const springY = useSpring(mouseY, { stiffness: 150, damping: 20 });
 
-    // Transform mouse position to rotation values
     const rotateX = useTransform(springY, [0, 1], [8, -8]);
     const rotateY = useTransform(springX, [0, 1], [-8, 8]);
 
@@ -52,6 +49,11 @@ export default function ProductCard({
         setIsHovered(false);
     };
 
+    const handleAddToCart = () => {
+        setAdded(true);
+        setTimeout(() => setAdded(false), 2000);
+    };
+
     return (
         <div className="perspective-1000">
             <motion.div
@@ -64,76 +66,97 @@ export default function ProductCard({
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={handleMouseLeave}
-                whileHover={{ z: 30 }}
+                whileHover={{ z: 20 }}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
+                className="bg-[#1a0b2e] border-2 border-white/5 rounded-[2rem] overflow-hidden group p-3 flex flex-col h-full shadow-2xl relative"
             >
-                {/* Image Container */}
-                <div className={`relative aspect-square overflow-hidden ${color}`}>
+                {/* Image Area */}
+                <div className="relative aspect-square rounded-[1.5rem] overflow-hidden bg-black/40 border border-white/5 mb-4 px-4 pt-4">
                     {tag && (
-                        <span className="absolute top-4 left-4 z-10 bg-bubblegum-pink text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
+                        <div className="absolute top-4 left-4 z-10 bg-white text-black font-heading text-[10px] px-3 py-1 rounded-md shadow-lg uppercase tracking-widest border border-black">
                             {tag}
-                        </span>
+                        </div>
                     )}
+
                     <motion.div
-                        animate={isHovered ? { scale: 1.08, y: -5 } : { scale: 1, y: 0 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                        className="w-full h-full flex items-center justify-center"
-                        style={{ transformStyle: "preserve-3d", transform: "translateZ(40px)" }}
+                        animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+                        className="w-full h-full"
                     >
                         <Image
                             src={image}
                             alt={name}
                             width={400}
                             height={400}
-                            className="object-cover w-full h-full"
+                            className="object-contain w-full h-full"
                         />
                     </motion.div>
                 </div>
 
-                {/* Info */}
-                <div className="p-5 sm:p-6">
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-2">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                                key={i}
-                                className={`w-4 h-4 ${i < rating ? "fill-sunshine-yellow text-sunshine-yellow" : "text-gray-200"}`}
-                            />
-                        ))}
-                        <span className="text-sm text-foreground/50 ml-1 font-semibold">({rating}.0)</span>
+                {/* Content */}
+                <div className="flex flex-col flex-grow px-2 pb-2">
+                    <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-xl font-heading text-white uppercase tracking-tight">{name}</h3>
+                        <span className="text-neon-lime font-heading text-xl">${price.toFixed(2)}</span>
                     </div>
 
-                    {/* Name */}
-                    <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 font-[var(--font-heading)]">
-                        {name}
-                    </h3>
+                    {description && (
+                        <p className="text-[10px] text-white/40 font-heading uppercase tracking-widest mb-4">
+                            {description}
+                        </p>
+                    )}
 
-                    {/* Price */}
-                    <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-2xl sm:text-3xl font-bold text-electric-purple">
-                            ${price.toFixed(2)}
-                        </span>
-                        {originalPrice && (
-                            <span className="text-lg text-foreground/40 line-through">
-                                ${originalPrice.toFixed(2)}
-                            </span>
-                        )}
-                    </div>
-
-                    {/* Add to Cart Button — full width */}
-                    <motion.button
-                        whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(163, 230, 53, 0.3)" }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-full flex items-center justify-center gap-2 bg-slime-green text-foreground font-bold text-lg py-3.5 rounded-2xl shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                    {/* Make it Live Toggle */}
+                    <button
+                        onClick={() => setMakeItLive(!makeItLive)}
+                        className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all mb-4 ${makeItLive
+                                ? 'border-neon-lime bg-neon-lime/10 shadow-[0_0_15px_rgba(57,255,20,0.2)]'
+                                : 'border-white/10 bg-white/5 hover:border-white/20'
+                            }`}
                     >
-                        <ShoppingCart className="w-5 h-5" />
-                        Add to Cart
-                    </motion.button>
+                        <div className="flex items-center gap-2">
+                            <div className={`p-1.5 rounded-lg ${makeItLive ? 'bg-neon-lime text-black' : 'bg-white/10 text-white/40'}`}>
+                                <Zap className="w-4 h-4" />
+                            </div>
+                            <span className={`text-[10px] font-heading uppercase tracking-widest ${makeItLive ? 'text-white' : 'text-white/40'}`}>
+                                Make it Live
+                            </span>
+                        </div>
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${makeItLive ? 'border-neon-lime bg-neon-lime' : 'border-white/20'}`}>
+                            {makeItLive && <Check className="w-3 h-3 text-black stroke-[3px]" />}
+                        </div>
+                    </button>
+
+                    {/* Add to Cart Button */}
+                    <div className="mt-auto pt-2">
+                        <motion.button
+                            onClick={handleAddToCart}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className={`w-full flex items-center justify-center gap-2 font-heading py-4 rounded-xl border-2 border-black transition-all ${added
+                                    ? 'bg-green-500 text-white border-green-600'
+                                    : 'bg-white text-black shadow-[4px_4px_0px_var(--neon-lime)] hover:shadow-none'
+                                }`}
+                        >
+                            {added ? (
+                                <>
+                                    <Check className="w-5 h-5" />
+                                    ADDED!
+                                </>
+                            ) : (
+                                <>
+                                    <ShoppingCart className="w-5 h-5" />
+                                    ADD TO CART
+                                </>
+                            )}
+                        </motion.button>
+                    </div>
                 </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-neon-lime/5 blur-3xl rounded-full pointer-events-none" />
+                <div className="absolute -top-2 -left-2 w-24 h-24 bg-hot-pink/5 blur-3xl rounded-full pointer-events-none" />
             </motion.div>
         </div>
     );

@@ -1,9 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, Instagram, Youtube, Mail } from "lucide-react";
 
 export default function Footer() {
+    const pathname = usePathname();
+
+    if (pathname === "/patty") return null;
+
     return (
         <footer className="bg-foreground text-white py-12 px-4">
             <div className="max-w-6xl mx-auto">

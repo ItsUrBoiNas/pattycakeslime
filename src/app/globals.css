@@ -1,25 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fdfbf7;
-  --foreground: #1a1a2e;
-  --slime-green: #a3e635;
-  --bubblegum-pink: #f472b6;
-  --electric-purple: #a855f7;
-  --sunshine-yellow: #facc15;
-  --off-white: #fdfbf7;
+  --background: #1a0b2e;
+  --foreground: #ffffff;
+  --neon-lime: #39ff14;
+  --hot-pink: #ff00ff;
+  --deep-purple: #1a0b2e;
+  --cyan-pop: #00ffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-slime-green: var(--slime-green);
-  --color-bubblegum-pink: var(--bubblegum-pink);
-  --color-electric-purple: var(--electric-purple);
-  --color-sunshine-yellow: var(--sunshine-yellow);
-  --color-off-white: var(--off-white);
-  --font-heading: var(--font-fredoka);
-  --font-body: var(--font-nunito);
+  --color-neon-lime: var(--neon-lime);
+  --color-hot-pink: var(--hot-pink);
+  --color-deep-purple: var(--deep-purple);
+  --color-cyan-pop: var(--cyan-pop);
+  --font-heading: var(--font-titan-one);
+  --font-body: var(--font-fredoka);
 }
 
 html {
@@ -29,7 +27,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), cursive;
 }
 
 h1,
@@ -53,13 +51,56 @@ h6 {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Perspective container for 3D cards */
 .perspective-1000 {
   perspective: 1000px;
+}
+
+@keyframes neon-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px var(--neon-lime)) drop-shadow(0 0 10px var(--neon-lime));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px var(--neon-lime)) drop-shadow(0 0 20px var(--neon-lime));
+  }
+}
+
+.animate-neon {
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+@keyframes flicker {
+
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
+}
+
+.animate-flicker {
+  animation: flicker 3s linear infinite;
 }

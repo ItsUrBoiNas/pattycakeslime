@@ -1,85 +1,112 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
-import { TrendingUp } from "lucide-react";
+import { Zap, Package, Sparkles } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-const products = [
-    {
-        name: "Cloud Nine Slime",
-        price: 12.99,
-        originalPrice: 16.99,
-        image: "/products/cloud-slime.png",
-        rating: 5,
-        tag: "BEST SELLER",
-        color: "bg-gradient-to-br from-sky-200 to-blue-300",
-    },
-    {
-        name: "Butter Dream",
-        price: 14.99,
-        image: "/products/butter-slime.png",
-        rating: 5,
-        tag: "NEW DROP",
-        color: "bg-gradient-to-br from-yellow-200 to-amber-300",
-    },
-    {
-        name: "Galaxy Crunch",
-        price: 13.99,
-        originalPrice: 17.99,
-        image: "/products/galaxy-slime.png",
-        rating: 4,
-        tag: "LIMITED",
-        color: "bg-gradient-to-br from-purple-300 to-indigo-400",
-    },
-];
+interface Product {
+    id: string;
+    name: string;
+    price: number;
+    description: string | null;
+    tag: string | null;
+    image_url: string | null;
+    is_pre_made: boolean;
+}
 
-export default function BestSellers() {
+export default function ShopSection() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadProducts();
+
+        // Subscribe to real-time changes
+        const channel = supabase
+            .channel('products-changes')
+            .on('postgres_changes',
+                { event: '*', schema: 'public', table: 'products' },
+                () => {
+                    loadProducts();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
+
+    const loadProducts = async () => {
+        const { data, error } = await supabase
+            .from("products")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (data) {
+            setProducts(data);
+        }
+        setLoading(false);
+    };
+
     return (
-        <section id="shop" className="py-16 sm:py-24 px-4 bg-off-white">
+        <section id="shop" className="py-24 px-4 bg-background overflow-hidden">
             <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                    className="text-center mb-12"
-                >
-                    <div className="inline-flex items-center gap-2 bg-slime-green/20 text-slime-green px-5 py-2 rounded-full mb-4">
-                        <TrendingUp className="w-5 h-5" />
-                        <span className="font-bold text-sm uppercase tracking-wider text-foreground">Trending Now</span>
-                    </div>
-                    <h2 className="text-4xl sm:text-5xl font-bold font-[var(--font-heading)] text-foreground">
-                        Best Sellers ⭐
-                    </h2>
-                    <p className="text-lg text-foreground/60 mt-3 font-semibold max-w-lg mx-auto">
-                        Our most loved slimes — grab them before they&apos;re gone!
-                    </p>
-                </motion.div>
-
-                {/* Product Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    {products.map((product) => (
-                        <ProductCard key={product.name} {...product} />
-                    ))}
-                </div>
-
-                {/* View All CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="text-center mt-12"
+                    className="flex flex-col items-center mb-16 gap-4 text-center"
                 >
-                    <motion.a
-                        href="#"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center gap-2 border-2 border-foreground text-foreground font-bold text-lg px-8 py-4 rounded-full hover:bg-foreground hover:text-white transition-colors"
-                    >
-                        View All Slimes →
-                    </motion.a>
+                    <div className="inline-flex items-center gap-2 bg-neon-lime text-black px-4 py-1 rounded-full font-heading text-xs uppercase mb-2 shadow-[4px_4px_0px_#fff]">
+                        <Sparkles className="w-4 h-4 fill-current" />
+                        Official Menu
+                    </div>
+                    <h2 className="text-5xl md:text-8xl font-heading text-white tracking-widest leading-none drop-shadow-[0_4px_0px_#ff00ff] uppercase">
+                        PICK YOUR <span className="text-neon-lime">FLAVOR</span>
+                    </h2>
+                </motion.div>
+
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="w-12 h-12 border-4 border-neon-lime/30 border-t-neon-lime rounded-full animate-spin" />
+                    </div>
+                ) : products.length === 0 ? (
+                    <div className="text-center py-20">
+                        <p className="text-white/40 font-body">No slimes available yet. Check back soon! ✨</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                        {products.map((product) => (
+                            <ProductCard
+                                key={product.id}
+                                name={product.name}
+                                price={product.price}
+                                image={product.image_url || "/products/cloud-slime.png"}
+                                description={product.description || "Handmade slime"}
+                                tag={product.tag || ""}
+                                isPreMade={product.is_pre_made}
+                            />
+                        ))}
+                    </div>
+                )}
+
+                {/* Info Bar */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    className="mt-20 flex flex-wrap justify-center gap-8 border-t border-white/10 pt-12"
+                >
+                    <div className="flex items-center gap-3">
+                        <Zap className="w-6 h-6 text-neon-lime" />
+                        <span className="text-white font-heading text-sm uppercase">Live Build Option Available</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Package className="w-6 h-6 text-hot-pink" />
+                        <span className="text-white font-heading text-sm uppercase">Fast Shipping</span>
+                    </div>
                 </motion.div>
             </div>
         </section>

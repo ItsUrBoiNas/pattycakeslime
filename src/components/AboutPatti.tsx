@@ -1,102 +1,83 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, Sparkles } from "lucide-react";
+import { Zap, Heart, Camera } from "lucide-react";
 
 export default function AboutPatti() {
     return (
-        <section id="about" className="py-16 sm:py-24 px-4 bg-pink-50">
+        <section id="about" className="py-24 px-4 bg-background">
             <div className="max-w-6xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                    className="bg-white rounded-3xl shadow-xl overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    className="bg-[#1a0b2e] border-4 border-white/5 rounded-[3rem] overflow-hidden shadow-2xl"
                 >
                     <div className="grid md:grid-cols-2 gap-0">
-                        {/* Photo Placeholder */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 15 }}
-                            className="relative aspect-square md:aspect-auto bg-gradient-to-br from-bubblegum-pink/30 via-pink-100 to-electric-purple/20 flex items-center justify-center min-h-[300px]"
-                        >
-                            {/* Placeholder avatar */}
-                            <div className="text-center">
+                        {/* Creator Profile */}
+                        <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-hot-pink/20 to-neon-lime/20 overflow-hidden">
+                            {/* Animated Background Text */}
+                            <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+                                <span className="text-[20rem] font-heading select-none">LIVE</span>
+                            </div>
+
+                            <div className="relative z-10 text-center">
                                 <motion.div
-                                    animate={{ y: [0, -8, 0] }}
-                                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                    className="text-8xl sm:text-9xl mb-4"
+                                    animate={{
+                                        scale: [1, 1.05, 1],
+                                        rotate: [0, 2, -2, 0]
+                                    }}
+                                    transition={{ duration: 4, repeat: Infinity }}
+                                    className="text-[12rem] md:text-[15rem] leading-none mb-6 drop-shadow-[10px_10px_0px_var(--neon-lime)]"
                                 >
                                     👵🏻
                                 </motion.div>
-                                <p className="text-bubblegum-pink font-bold text-lg">Grandma Patti</p>
+                                <div className="bg-black/80 backdrop-blur-md px-6 py-2 rounded-xl border border-white/20">
+                                    <p className="text-white font-heading text-lg tracking-[0.2em] uppercase">PattiCakeSlime</p>
+                                </div>
                             </div>
 
-                            {/* Decorative sparkles */}
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                className="absolute top-6 right-6"
-                            >
-                                <Sparkles className="w-8 h-8 text-sunshine-yellow" />
-                            </motion.div>
-                            <motion.div
-                                animate={{ rotate: -360 }}
-                                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                className="absolute bottom-6 left-6"
-                            >
-                                <Sparkles className="w-6 h-6 text-bubblegum-pink" />
-                            </motion.div>
-                        </motion.div>
+                            {/* Corner Badges */}
+                            <div className="absolute top-8 left-8 flex gap-2">
+                                <div className="bg-red-600 px-3 py-1 rounded font-heading text-[10px] text-white">LIVE</div>
+                                <div className="bg-white px-3 py-1 rounded font-heading text-[10px] text-black shadow-[2px_2px_0px_var(--neon-lime)]">CREATOR</div>
+                            </div>
+                        </div>
 
                         {/* Story */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 15 }}
-                            className="p-8 sm:p-12 flex flex-col justify-center"
-                        >
-                            <div className="inline-flex items-center gap-2 bg-pink-100 text-bubblegum-pink px-4 py-2 rounded-full mb-6 w-fit">
-                                <Heart className="w-4 h-4 fill-bubblegum-pink" />
-                                <span className="font-bold text-sm uppercase tracking-wider">Our Story</span>
+                        <div className="p-8 md:p-16 flex flex-col justify-center bg-black/40">
+                            <div className="flex items-center gap-3 mb-8">
+                                <Zap className="w-8 h-8 text-neon-lime fill-current" />
+                                <h2 className="text-4xl md:text-6xl font-heading text-white leading-none">
+                                    THE <span className="text-neon-lime italic">PATTICAKE</span> WAY
+                                </h2>
                             </div>
 
-                            <h2 className="text-3xl sm:text-4xl font-bold font-[var(--font-heading)] text-foreground mb-6">
-                                Meet Grandma Patti 💖
-                            </h2>
-
-                            <div className="space-y-4 text-lg text-foreground/70 leading-relaxed font-medium">
+                            <div className="space-y-6 text-lg text-white/70 font-body leading-relaxed">
                                 <p>
-                                    It all started in Grandma Patti&apos;s kitchen. At 72 years young, she discovered
-                                    that making slime with her grandkids was the most fun she&apos;d had in years!
+                                    I don&apos;t do boring restocks. I create <span className="text-white font-bold">in the moment.</span>
                                 </p>
                                 <p>
-                                    What began as simple weekend craft sessions turned into a viral TikTok sensation.
-                                    Her secret? <strong className="text-foreground">Real love in every batch.</strong> Each
-                                    slime is hand-mixed with premium ingredients and sprinkled with grandma-approved
-                                    magic. ✨
+                                    Every slime you see here is either a ready-to-ship masterpiece or a custom build that
+                                    I will <span className="text-hot-pink font-bold uppercase underline">make for you live</span> while
+                                    thousands of people watch.
                                 </p>
                                 <p>
-                                    From cloud slime to butter slime, every creation is made in small batches to
-                                    ensure the <strong className="text-foreground">squishiest, stretchiest, most satisfying</strong>{" "}
-                                    slime you&apos;ve ever felt.
+                                    I use the best ingredients, the craziest charms, and I put a little bit of high-voltage energy
+                                    into every batch. No two slimes are ever the same.
                                 </p>
                             </div>
 
-                            <motion.div
-                                whileHover={{ scale: 1.02 }}
-                                className="mt-8 bg-pink-50 rounded-2xl p-5 border-2 border-bubblegum-pink/20"
-                            >
-                                <p className="text-bubblegum-pink font-bold text-lg italic">
-                                    &ldquo;Every jar of slime has a little bit of my heart in it.&rdquo;
-                                </p>
-                                <p className="text-foreground/50 font-semibold mt-1">— Grandma Patti 🍰</p>
-                            </motion.div>
-                        </motion.div>
+                            <div className="mt-12 flex flex-wrap gap-4">
+                                <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
+                                    <Camera className="w-4 h-4 text-neon-lime" />
+                                    <span className="text-xs font-heading text-white uppercase tracking-wider">TikTok Sensation</span>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
+                                    <Heart className="w-4 h-4 text-hot-pink" />
+                                    <span className="text-xs font-heading text-white uppercase tracking-wider">Handmade Live</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </motion.div>
             </div>

@@ -1,17 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Menu, X, Sparkles } from "lucide-react";
+import { ShoppingCart, Menu, X, Zap } from "lucide-react";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+
+    if (pathname === "/patty") return null;
 
     const navLinks = [
         { label: "Shop", href: "#shop" },
-        { label: "Drops", href: "#drops" },
         { label: "TikTok", href: "#tiktok" },
-        { label: "About Patti", href: "#about" },
+        { label: "About", href: "#about" },
     ];
 
     return (
@@ -19,31 +22,33 @@ export default function Navbar() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 120, damping: 20 }}
-            className="fixed top-0 left-0 right-0 z-50 glass"
+            className="fixed top-0 left-0 right-0 z-[100] bg-background/80 backdrop-blur-md border-b border-white/5"
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
                     <motion.a
                         href="/"
-                        className="flex items-center gap-2"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 group"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                     >
-                        <Sparkles className="w-8 h-8 text-slime-green" />
-                        <span className="text-2xl sm:text-3xl font-bold font-[var(--font-heading)] bg-gradient-to-r from-slime-green via-bubblegum-pink to-electric-purple bg-clip-text text-transparent">
-                            PattiCakeSlime
+                        <div className="bg-neon-lime p-1.5 rounded-lg shadow-[3px_3px_0px_#ff00ff]">
+                            <Zap className="w-6 h-6 text-black fill-current" />
+                        </div>
+                        <span className="text-xl sm:text-2xl font-heading text-white tracking-widest uppercase">
+                            PattiCake<span className="text-neon-lime">Slime</span>
                         </span>
                     </motion.a>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden md:flex items-center gap-10">
                         {navLinks.map((link) => (
                             <motion.a
                                 key={link.label}
                                 href={link.href}
-                                className="text-lg font-semibold text-foreground hover:text-bubblegum-pink transition-colors"
-                                whileHover={{ scale: 1.1, y: -2 }}
+                                className="text-xs font-heading font-medium text-white/70 hover:text-neon-lime transition-colors tracking-widest uppercase"
+                                whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
                                 {link.label}
@@ -52,11 +57,11 @@ export default function Navbar() {
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="relative p-3 rounded-2xl bg-slime-green/20 hover:bg-slime-green/30 transition-colors"
+                            className="relative p-3 rounded-xl bg-white text-black border-2 border-black shadow-[4px_4px_0px_var(--neon-lime)]"
                             aria-label="Shopping Cart"
                         >
-                            <ShoppingCart className="w-6 h-6 text-foreground" />
-                            <span className="absolute -top-1 -right-1 bg-bubblegum-pink text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                            <ShoppingCart className="w-5 h-5" />
+                            <span className="absolute -top-1 -right-1 bg-hot-pink text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
                                 0
                             </span>
                         </motion.button>
@@ -67,18 +72,15 @@ export default function Navbar() {
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="relative p-3 rounded-2xl bg-slime-green/20"
+                            className="relative p-3 rounded-xl bg-white text-black border-2 border-black"
                             aria-label="Shopping Cart"
                         >
-                            <ShoppingCart className="w-6 h-6 text-foreground" />
-                            <span className="absolute -top-1 -right-1 bg-bubblegum-pink text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                                0
-                            </span>
+                            <ShoppingCart className="w-5 h-5" />
                         </motion.button>
                         <motion.button
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsOpen(!isOpen)}
-                            className="p-2 rounded-2xl"
+                            className="p-2 text-white"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
@@ -91,21 +93,20 @@ export default function Navbar() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                        className="md:hidden glass border-t border-white/20"
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
+                        className="fixed inset-0 top-20 bg-background z-40 md:hidden p-8"
                     >
-                        <div className="px-6 py-6 flex flex-col gap-4">
+                        <div className="flex flex-col gap-8">
                             {navLinks.map((link, i) => (
                                 <motion.a
                                     key={link.label}
                                     href={link.href}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="text-xl font-bold text-foreground py-2"
+                                    className="text-4xl font-heading text-white tracking-widest uppercase"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {link.label}
