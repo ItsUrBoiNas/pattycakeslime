@@ -1,16 +1,49 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, ShoppingBag, Play } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Hero() {
+    const [headline, setHeadline] = useState("PattiCake Slime");
+    const [subHeadline, setSubHeadline] = useState("OFFICIAL MENU");
+
+    useEffect(() => {
+        const loadHeroData = async () => {
+            const { data: headlineData } = await supabase
+                .from("site_settings")
+                .select("value")
+                .eq("key", "hero_headline")
+                .single();
+
+            const { data: subData } = await supabase
+                .from("site_settings")
+                .select("value")
+                .eq("key", "hero_subheadline")
+                .single();
+
+            if (headlineData?.value) setHeadline(headlineData.value);
+            if (subData?.value) setSubHeadline(subData.value);
+        };
+
+        loadHeroData();
+
+        const channel = supabase
+            .channel('hero-settings')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, () => loadHeroData())
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
+
     return (
         <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-background pt-16">
-            {/* High-Voltage Grid Background */}
             <div className="absolute inset-0 z-0 opacity-20"
                 style={{ backgroundImage: 'radial-gradient(var(--neon-lime) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-            {/* Pulse Glows */}
             <motion.div
                 className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-hot-pink/20 blur-[120px]"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -24,7 +57,6 @@ export default function Hero() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col items-center text-center">
-                    {/* Floating Status Badge */}
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -44,12 +76,15 @@ export default function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="text-6xl sm:text-8xl md:text-9xl font-heading text-white mb-6 leading-none drop-shadow-[0_8px_0px_#ff00ff] tracking-tighter uppercase"
                     >
-                        PattiCake <br /> <span className="text-neon-lime italic">Slime</span>
+                        {headline.split(' ').map((word, i) => (
+                            <span key={i}>
+                                {i === 1 ? <><br /> <span className="text-neon-lime italic">{word}</span></> : word}
+                            </span>
+                        ))}
                     </motion.h1>
 
-                    <p className="text-xl md:text-2xl text-white/80 font-body max-w-2xl mb-12 font-medium">
-                        The squishiest, stretchiest, hand-crafted slime on TikTok. <br />
-                        <span className="text-white font-bold">Pick your flavor and let&apos;s get gooey!</span>
+                    <p className="text-xl md:text-2xl text-neon-lime font-heading uppercase tracking-widest mb-12 shadow-[0_0_10px_rgba(57,255,20,0.3)]">
+                        {subHeadline}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
@@ -64,7 +99,7 @@ export default function Hero() {
                         </motion.a>
 
                         <motion.a
-                            href="https://tiktok.com/@patticakeslime"
+                            href="https://www.tiktok.com/@memomzie"
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 0, 255, 0.6)" }}
@@ -84,7 +119,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Background Slime Drip Decoration (Simulated) */}
             <div className="absolute top-0 left-0 w-full h-12 bg-neon-lime shadow-[0_4px_10px_rgba(57,255,20,0.5)] z-20 overflow-hidden">
                 <div className="flex">
                     {Array.from({ length: 20 }).map((_, i) => (

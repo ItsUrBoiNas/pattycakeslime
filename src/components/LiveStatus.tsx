@@ -15,7 +15,7 @@ export default function LiveStatus() {
         const channel = supabase
             .channel('live-status-changes')
             .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'site_settings', filter: 'key=eq.live_status' },
+                { event: '*', schema: 'public', table: 'site_settings' },
                 () => {
                     loadLiveStatus();
                 }
@@ -31,7 +31,7 @@ export default function LiveStatus() {
         const { data } = await supabase
             .from("site_settings")
             .select("value")
-            .eq("key", "live_status")
+            .eq("key", "announcement_bar")
             .single();
 
         if (data?.value) {
@@ -63,7 +63,7 @@ export default function LiveStatus() {
 
                 {isLive && (
                     <a
-                        href="https://tiktok.com/@patticakeslime"
+                        href="https://www.tiktok.com/@memomzie"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-white text-black font-heading text-[10px] px-6 py-1.5 rounded-full border border-black shadow-[2px_2px_0px_#fff] uppercase hover:translate-y-[-1px] transition-transform"
