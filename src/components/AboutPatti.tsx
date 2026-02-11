@@ -1,9 +1,34 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, Heart, Camera } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function AboutPatti() {
+    const [aboutText, setAboutText] = useState("I don't do boring restocks. I create in the moment.");
+
+    useEffect(() => {
+        const loadAbout = async () => {
+            const { data } = await supabase
+                .from("site_settings")
+                .select("value")
+                .eq("key", "about_text")
+                .single();
+            if (data?.value) setAboutText(data.value);
+        };
+        loadAbout();
+
+        const channel = supabase
+            .channel('about-settings')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, () => loadAbout())
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
+
     return (
         <section id="about" className="py-24 px-4 bg-background">
             <div className="max-w-6xl mx-auto">
@@ -15,7 +40,6 @@ export default function AboutPatti() {
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Creator Profile */}
                         <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-hot-pink/20 to-neon-lime/20 overflow-hidden">
-                            {/* Animated Background Text */}
                             <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
                                 <span className="text-[20rem] font-heading select-none">LIVE</span>
                             </div>
@@ -36,7 +60,6 @@ export default function AboutPatti() {
                                 </div>
                             </div>
 
-                            {/* Corner Badges */}
                             <div className="absolute top-8 left-8 flex gap-2">
                                 <div className="bg-red-600 px-3 py-1 rounded font-heading text-[10px] text-white">LIVE</div>
                                 <div className="bg-white px-3 py-1 rounded font-heading text-[10px] text-black shadow-[2px_2px_0px_var(--neon-lime)]">CREATOR</div>
@@ -52,19 +75,8 @@ export default function AboutPatti() {
                                 </h2>
                             </div>
 
-                            <div className="space-y-6 text-lg text-white/70 font-body leading-relaxed">
-                                <p>
-                                    I don&apos;t do boring restocks. I create <span className="text-white font-bold">in the moment.</span>
-                                </p>
-                                <p>
-                                    Every slime you see here is either a ready-to-ship masterpiece or a custom build that
-                                    I will <span className="text-hot-pink font-bold uppercase underline">make for you live</span> while
-                                    thousands of people watch.
-                                </p>
-                                <p>
-                                    I use the best ingredients, the craziest charms, and I put a little bit of high-voltage energy
-                                    into every batch. No two slimes are ever the same.
-                                </p>
+                            <div className="space-y-6 text-lg text-white/70 font-body leading-relaxed whitespace-pre-wrap">
+                                {aboutText}
                             </div>
 
                             <div className="mt-12 flex flex-wrap gap-4">

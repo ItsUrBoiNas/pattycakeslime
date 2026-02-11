@@ -2,8 +2,14 @@
 
 import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ShoppingCart, Zap, Check } from "lucide-react";
+import { ShoppingCart, Zap, Check, Gem } from "lucide-react";
 import Image from "next/image";
+
+interface Accessory {
+    id: string;
+    name: string;
+    price: number;
+}
 
 interface ProductCardProps {
     name: string;
@@ -12,6 +18,7 @@ interface ProductCardProps {
     description?: string;
     tag?: string;
     isPreMade?: boolean;
+    accessories?: Accessory[];
 }
 
 export default function ProductCard({
@@ -20,11 +27,21 @@ export default function ProductCard({
     image,
     description,
     tag,
+    accessories = []
 }: ProductCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
     const [makeItLive, setMakeItLive] = useState(false);
+    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     const [added, setAdded] = useState(false);
+
+    // Calculate total
+    const accessoriesTotal = selectedAccessories.reduce((sum, id) => {
+        const acc = accessories.find(a => a.id === id);
+        return sum + (acc ? acc.price : 0);
+    }, 0);
+
+    const finalPrice = price + accessoriesTotal;
 
     // Mouse position for 3D tilt
     const mouseX = useMotionValue(0.5);
@@ -49,8 +66,18 @@ export default function ProductCard({
         setIsHovered(false);
     };
 
+    const toggleAccessory = (id: string) => {
+        setSelectedAccessories(prev =>
+            prev.includes(id)
+                ? prev.filter(x => x !== id)
+                : [...prev, id]
+        );
+    };
+
     const handleAddToCart = () => {
         setAdded(true);
+        // Here you would actually add to cart
+        console.log("Added to cart:", { name, finalPrice, makeItLive, selectedAccessories });
         setTimeout(() => setAdded(false), 2000);
     };
 
@@ -79,7 +106,6 @@ export default function ProductCard({
                             {tag}
                         </div>
                     )}
-
                     <motion.div
                         animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
                         className="w-full h-full"
@@ -98,7 +124,7 @@ export default function ProductCard({
                 <div className="flex flex-col flex-grow px-2 pb-2">
                     <div className="flex justify-between items-start mb-2">
                         <h3 className="text-xl font-heading text-white uppercase tracking-tight">{name}</h3>
-                        <span className="text-neon-lime font-heading text-xl">${price.toFixed(2)}</span>
+                        <span className="text-neon-lime font-heading text-xl">${finalPrice.toFixed(2)}</span>
                     </div>
 
                     {description && (
@@ -107,12 +133,37 @@ export default function ProductCard({
                         </p>
                     )}
 
+                    {/* Accessories */}
+                    {accessories.length > 0 && (
+                        <div className="mb-4 space-y-2">
+                            <p className="text-[10px] text-white/40 font-heading uppercase tracking-widest">Customize:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {accessories.map(acc => {
+                                    const isSelected = selectedAccessories.includes(acc.id);
+                                    return (
+                                        <button
+                                            key={acc.id}
+                                            onClick={() => toggleAccessory(acc.id)}
+                                            className={`text-[10px] px-2 py-1 rounded-lg border transition-all flex items-center gap-1 ${isSelected
+                                                    ? "bg-hot-pink text-white border-white/20 shadow-[0_0_10px_rgba(255,0,255,0.4)]"
+                                                    : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                                                }`}
+                                        >
+                                            {isSelected && <Check className="w-3 h-3" />}
+                                            {acc.name} (+${acc.price.toFixed(2)})
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Make it Live Toggle */}
                     <button
                         onClick={() => setMakeItLive(!makeItLive)}
                         className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all mb-4 ${makeItLive
-                                ? 'border-neon-lime bg-neon-lime/10 shadow-[0_0_15px_rgba(57,255,20,0.2)]'
-                                : 'border-white/10 bg-white/5 hover:border-white/20'
+                            ? 'border-neon-lime bg-neon-lime/10 shadow-[0_0_15px_rgba(57,255,20,0.2)]'
+                            : 'border-white/10 bg-white/5 hover:border-white/20'
                             }`}
                     >
                         <div className="flex items-center gap-2">
@@ -135,8 +186,8 @@ export default function ProductCard({
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             className={`w-full flex items-center justify-center gap-2 font-heading py-4 rounded-xl border-2 border-black transition-all ${added
-                                    ? 'bg-green-500 text-white border-green-600'
-                                    : 'bg-white text-black shadow-[4px_4px_0px_var(--neon-lime)] hover:shadow-none'
+                                ? 'bg-green-500 text-white border-green-600'
+                                : 'bg-white text-black shadow-[4px_4px_0px_var(--neon-lime)] hover:shadow-none'
                                 }`}
                         >
                             {added ? (

@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 export default function Hero() {
     const [headline, setHeadline] = useState("PattiCake Slime");
     const [subHeadline, setSubHeadline] = useState("OFFICIAL MENU");
+    const [liveStatus, setLiveStatus] = useState("");
 
     useEffect(() => {
         const loadHeroData = async () => {
@@ -23,8 +24,16 @@ export default function Hero() {
                 .eq("key", "hero_subheadline")
                 .single();
 
+            const { data: liveData } = await supabase
+                .from("site_settings")
+                .select("value")
+                .eq("key", "live_status_text")
+                .single();
+
             if (headlineData?.value) setHeadline(headlineData.value);
             if (subData?.value) setSubHeadline(subData.value);
+            if (liveData?.value) setLiveStatus(liveData.value);
+            else setLiveStatus("");
         };
 
         loadHeroData();
@@ -57,19 +66,21 @@ export default function Hero() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col items-center text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-black/50 border-2 border-neon-lime px-6 py-2 rounded-full mb-8 shadow-[0_0_15px_rgba(57,255,20,0.5)]"
-                    >
-                        <span className="text-neon-lime font-heading text-sm tracking-widest flex items-center gap-2">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    {liveStatus && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-black/50 border-2 border-neon-lime px-6 py-2 rounded-full mb-8 shadow-[0_0_15px_rgba(57,255,20,0.5)]"
+                        >
+                            <span className="text-neon-lime font-heading text-sm tracking-widest flex items-center gap-2">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                                {liveStatus}
                             </span>
-                            LIVE ON TIKTOK NOW
-                        </span>
-                    </motion.div>
+                        </motion.div>
+                    )}
 
                     <motion.h1
                         initial={{ opacity: 0, scale: 0.9 }}

@@ -18,20 +18,17 @@ interface Product {
 
 export default function ShopSection() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [accessories, setAccessories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadProducts();
+        loadData();
 
         // Subscribe to real-time changes
         const channel = supabase
-            .channel('products-changes')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'products' },
-                () => {
-                    loadProducts();
-                }
-            )
+            .channel('shop-changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => loadData())
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'accessories' }, () => loadData())
             .subscribe();
 
         return () => {
@@ -39,15 +36,14 @@ export default function ShopSection() {
         };
     }, []);
 
-    const loadProducts = async () => {
-        const { data, error } = await supabase
-            .from("products")
-            .select("*")
-            .order("created_at", { ascending: false });
+    const loadData = async () => {
+        const [prodRes, accRes] = await Promise.all([
+            supabase.from("products").select("*").order("created_at", { ascending: false }),
+            supabase.from("accessories").select("*").eq("is_active", true).order("price", { ascending: true })
+        ]);
 
-        if (data) {
-            setProducts(data);
-        }
+        if (prodRes.data) setProducts(prodRes.data);
+        if (accRes.data) setAccessories(accRes.data);
         setLoading(false);
     };
 
@@ -88,6 +84,7 @@ export default function ShopSection() {
                                 description={product.description || "Handmade slime"}
                                 tag={product.tag || ""}
                                 isPreMade={product.is_pre_made}
+                                accessories={accessories}
                             />
                         ))}
                     </div>
