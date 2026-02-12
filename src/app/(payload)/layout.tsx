@@ -11,10 +11,10 @@ type Args = {
     children: React.ReactNode
 }
 
-const serverFunction = async (args: Args) => {
+const serverFunction = async (functionArgs: any) => {
     'use server'
     return handleServerFunctions({
-        ...args,
+        ...functionArgs,
         config,
         importMap,
     })

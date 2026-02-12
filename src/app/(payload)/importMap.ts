@@ -1,3 +1,2 @@
-import { defaultImportMap } from '@payloadcms/next/utilities'
 
-export const importMap = defaultImportMap
+export const importMap = {} as any
