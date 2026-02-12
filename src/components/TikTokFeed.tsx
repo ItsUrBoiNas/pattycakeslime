@@ -69,7 +69,7 @@ export default function TikTokFeed() {
                         </h2>
                     </div>
                     <motion.a
-                        href="https://tiktok.com"
+                        href="https://www.tiktok.com/@patticakelive"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.05 }}

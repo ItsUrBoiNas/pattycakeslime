@@ -67,7 +67,7 @@ export default function Hero() {
             {/* Grid Pattern Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(57,255,20,0.2)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-            <div className="container mx-auto px-4 relative z-10">
+            <div className="container mx-auto px-4 relative z-30">
                 <div className="flex flex-col items-center text-center">
                     {liveStatus && (
                         <motion.div
@@ -101,27 +101,15 @@ export default function Hero() {
                         {subHeadline}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
+                    <div className="flex justify-center w-full max-w-md">
                         <motion.a
                             href="#shop"
                             whileHover={{ scale: 1.05, boxShadow: "8px 8px 0px #000" }}
                             whileTap={{ scale: 0.95 }}
-                            className="flex-1 bg-neon-lime text-black font-heading text-2xl py-6 rounded-2xl border-4 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center gap-3 no-underline"
+                            className="w-full bg-neon-lime text-black font-heading text-2xl py-6 rounded-2xl border-4 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center gap-3 no-underline"
                         >
                             <ShoppingBag className="w-8 h-8 fill-current" />
                             SHOP THE MENU
-                        </motion.a>
-
-                        <motion.a
-                            href="https://www.tiktok.com/@memomzie"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 0, 255, 0.6)" }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex-1 bg-hot-pink text-white font-heading text-2xl py-6 rounded-2xl border-4 border-black shadow-[8px_8px_0px_#1a0b2e] flex items-center justify-center gap-3 no-underline"
-                        >
-                            <Play className="w-8 h-8 fill-current" />
-                            WATCH LIVE
                         </motion.a>
                     </div>
 

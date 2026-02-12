@@ -36,7 +36,7 @@ ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "products_select_policy" ON products FOR SELECT USING (true);
 CREATE POLICY "settings_select_policy" ON site_settings FOR SELECT USING (true);
 
--- Allow everyone to insert, update, delete (since we're using custom auth on /patty)
+-- Allow everyone to insert, update, delete (since we're using custom auth on /patti)
 CREATE POLICY "products_insert_policy" ON products FOR INSERT WITH CHECK (true);
 CREATE POLICY "products_update_policy" ON products FOR UPDATE USING (true);
 CREATE POLICY "products_delete_policy" ON products FOR DELETE USING (true);

@@ -69,7 +69,7 @@ export async function POST(request: Request) {
                 });
 
                 const mailOptions = {
-                    from: '"PattiCakeSlime System" <no-reply@pattycakeslime.com>',
+                    from: '"PattiCakeSlime System" <no-reply@patticakeslime.com>',
                     to: process.env.CLIENT_EMAIL || 'nasirhenken09@gmail.com',
                     subject: `New Order from ${customerName} - $${totalPrice}`,
                     text: `New Order Received!\n\nCustomer: ${customerName}\nPhone: ${phoneNumber}\nTotal: $${totalPrice}\n\nItems:\n${orderItems.map((item: any) => `- ${item.name} (x${item.quantity})`).join('\n')}\n\nShipping Address:\n${shippingAddress}, ${city}, ${state} ${zip}`,

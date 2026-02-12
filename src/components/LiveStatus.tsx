@@ -68,7 +68,7 @@ export default function LiveStatus() {
 
                 {isLive && (
                     <a
-                        href="https://www.tiktok.com/@memomzie"
+                        href="https://www.tiktok.com/@patticakelive"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-white text-black font-heading text-[10px] px-6 py-1.5 rounded-full border border-black shadow-[2px_2px_0px_#fff] uppercase hover:translate-y-[-1px] transition-transform"

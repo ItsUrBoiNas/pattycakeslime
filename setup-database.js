@@ -135,7 +135,7 @@ async function setupDatabase() {
     console.log('\n🎉 Database setup complete!');
     console.log('\n📋 Next steps:');
     console.log('1. Restart your dev server: npm run dev');
-    console.log('2. Visit http://localhost:3000/patty to manage products');
+    console.log('2. Visit http://localhost:3000/patti to manage products');
     console.log('3. Visit http://localhost:3000 to see the live site\n');
 }
 

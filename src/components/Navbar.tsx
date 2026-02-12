@@ -14,7 +14,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const { cartCount, toggleCart } = useCart();
 
-    if (pathname === "/patty") return null;
+    if (pathname === "/patti") return null;
 
     const navLinks = [
         { label: "Shop", href: "#shop" },

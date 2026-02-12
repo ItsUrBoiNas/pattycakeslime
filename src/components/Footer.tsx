@@ -7,7 +7,7 @@ import { Sparkles } from "lucide-react";
 export default function Footer() {
     const pathname = usePathname();
 
-    if (pathname === "/patty") return null;
+    if (pathname === "/patti") return null;
 
     return (
         <footer className="bg-electric-blue text-black py-12 px-4 border-t border-black/10 relative overflow-hidden">

@@ -15,13 +15,24 @@ import ViralManager from "@/components/admin/ViralManager";
 import OrderManager from "@/components/admin/OrderManager";
 import ShippingManager from "@/components/admin/ShippingManager";
 
-export default function PattyAdmin() {
+import { Lock } from "lucide-react";
+
+export default function PattiAdmin() {
     const [activeTab, setActiveTab] = useState("live");
     const [liveStatus, setLiveStatus] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
+    // Auth State
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [authError, setAuthError] = useState("");
+
     useEffect(() => {
+        const savedAuth = sessionStorage.getItem("patti_admin_auth");
+        if (savedAuth === "true") setIsAuthorized(true);
+
         const fetchStatus = async () => {
             const { data } = await supabase
                 .from("site_settings")
@@ -32,6 +43,17 @@ export default function PattyAdmin() {
         };
         fetchStatus();
     }, []);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (username === "patticakeslime" && password === "patticakeslime") {
+            setIsAuthorized(true);
+            sessionStorage.setItem("patti_admin_auth", "true");
+            setAuthError("");
+        } else {
+            setAuthError("Incorrect username or password! 🛑");
+        }
+    };
 
     const updateStatus = async (value: string) => {
         setLoading(true);
@@ -62,13 +84,75 @@ export default function PattyAdmin() {
         { id: "support", label: "Help", icon: LifeBuoy }
     ];
 
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center p-6 font-heading">
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="w-full max-w-md bg-deep-purple/20 border-4 border-white p-8 rounded-[40px] shadow-[15px_15px_0px_#ff00ff]"
+                >
+                    <div className="text-center mb-8">
+                        <div className="w-20 h-20 bg-neon-lime rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-black shadow-[4px_4px_0px_white]">
+                            <Lock className="w-10 h-10 text-black" />
+                        </div>
+                        <h1 className="text-3xl font-heading text-white uppercase italic tracking-tighter">
+                            Patti's <span className="text-neon-lime">Vault</span>
+                        </h1>
+                        <p className="text-white/60 uppercase tracking-widest text-xs mt-2 font-bold">Authorized Access Only</p>
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-6">
+                        <div>
+                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Username</label>
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="w-full bg-black border-2 border-white/20 p-4 rounded-2xl text-white focus:border-neon-lime outline-none transition-all placeholder:text-white/10"
+                                placeholder="Enter Username..."
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full bg-black border-2 border-white/20 p-4 rounded-2xl text-white focus:border-neon-lime outline-none transition-all placeholder:text-white/10"
+                                placeholder="Enter Password..."
+                            />
+                        </div>
+
+                        {authError && (
+                            <motion.p
+                                initial={{ x: 10 }}
+                                animate={{ x: 0 }}
+                                className="text-hot-pink text-center font-bold uppercase text-sm"
+                            >
+                                {authError}
+                            </motion.p>
+                        )}
+
+                        <button
+                            type="submit"
+                            className="w-full bg-neon-lime text-black py-5 rounded-2xl font-bold uppercase tracking-widest text-lg shadow-[4px_4px_0px_white] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                        >
+                            Unlock Dashboard
+                        </button>
+                    </form>
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-black text-white font-heading flex flex-col md:flex-row">
             {/* Sidebar Navigation */}
             <div className="w-full md:w-64 bg-deep-purple/20 border-r border-white/10 p-6 flex-shrink-0">
                 <div className="mb-10 flex items-center justify-between">
                     <h1 className="text-2xl text-neon-lime drop-shadow-[0_2px_0px_#ff00ff] uppercase italic leading-tight">
-                        Patty's<br />Dashboard
+                        Patti's<br />Dashboard
                     </h1>
                     <Link href="/" className="md:hidden text-white/40 hover:text-neon-lime">
                         <Home className="w-6 h-6" />
