@@ -91,10 +91,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 );
             }
 
-            // Calculate base price + accessories
-            // Note: ProductCard passes the base price. Accessories have their own prices.
+            // Calculate base price
+            // Note: ProductCard passes the base price. Accessories are now free.
             let unitPrice = product.price;
-            accessories.forEach(acc => unitPrice += acc.price);
 
             return [...prev, {
                 id: uniqueId,

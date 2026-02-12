@@ -130,7 +130,7 @@ export default function AccessoryManager() {
                                 </div>
                                 <div>
                                     <h3 className="font-heading text-white text-sm">{acc.name}</h3>
-                                    <p className="text-neon-lime font-mono text-xs">${acc.price.toFixed(2)}</p>
+                                    {/* Price display removed */}
                                 </div>
                             </div>
                             <button onClick={() => toggleActive(acc)} className="text-white/40 hover:text-white transition-colors">

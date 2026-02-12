@@ -34,12 +34,7 @@ export default function ProductCard({
     const { addToCart } = useCart();
 
     // Calculate total
-    const accessoriesTotal = selectedAccessories.reduce((sum, id) => {
-        const acc = accessories.find(a => a.id === id);
-        return sum + (acc ? acc.price : 0);
-    }, 0);
-
-    const finalPrice = price + accessoriesTotal;
+    const finalPrice = price;
 
     // Mouse position for 3D tilt
     const mouseX = useMotionValue(0.5);
@@ -156,7 +151,7 @@ export default function ProductCard({
                                                 }`}
                                         >
                                             {isSelected && <Check className="w-3 h-3" />}
-                                            {acc.name} (+${acc.price.toFixed(2)})
+                                            {acc.name}
                                         </button>
                                     );
                                 })}

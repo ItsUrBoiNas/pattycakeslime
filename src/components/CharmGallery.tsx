@@ -74,7 +74,7 @@ export default function CharmGallery() {
                                 )}
                             </div>
                             <h3 className="font-heading text-black text-xs mb-1 uppercase tracking-tighter">{charm.name}</h3>
-                            <span className="text-vibrant-red font-bold text-sm mb-3">${charm.price.toFixed(2)}</span>
+                            {/* Price tag removed */}
 
                             <motion.button
                                 whileTap={{ scale: 0.9 }}
