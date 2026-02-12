@@ -32,7 +32,7 @@ export default function LiveStatus() {
             .from("site_settings")
             .select("value")
             .eq("key", "announcement_bar")
-            .single();
+            .maybeSingle();
 
         if (data?.value) {
             setLiveStatus(data.value);

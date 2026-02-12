@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 export default function CartDrawer() {
-    const { isCartOpen, toggleCart, items, removeFromCart, updateQuantity, cartTotal } = useCart();
+    const { isCartOpen, toggleCart, items, removeFromCart, updateQuantity, cartTotal, subtotal, shippingCost } = useCart();
     const drawerRef = useRef<HTMLDivElement>(null);
 
     // Close on click outside
@@ -177,23 +177,28 @@ export default function CartDrawer() {
                         {/* Footer */}
                         {items.length > 0 && (
                             <div className="p-6 border-t border-white/10 bg-black/20 space-y-4">
+                                <div className="space-y-2 border-b border-white/5 pb-4">
+                                    <div className="flex items-center justify-between text-white/60">
+                                        <span className="font-heading uppercase tracking-widest text-xs">Subtotal</span>
+                                        <span className="font-heading tracking-wide">${subtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-white/60">
+                                        <span className="font-heading uppercase tracking-widest text-xs">Shipping</span>
+                                        <span className="font-heading tracking-wide">${shippingCost.toFixed(2)}</span>
+                                    </div>
+                                </div>
                                 <div className="flex items-center justify-between text-white">
-                                    <span className="font-heading uppercase tracking-widest text-sm text-white/60">
-                                        Subtotal
-                                    </span>
-                                    <span className="font-heading text-2xl text-neon-lime">
+                                    <span className="font-heading uppercase tracking-widest text-sm text-neon-lime">Total</span>
+                                    <span className="font-heading text-3xl text-neon-lime drop-shadow-[0_0_10px_rgba(204,255,0,0.3)]">
                                         ${cartTotal.toFixed(2)}
                                     </span>
                                 </div>
-                                <p className="text-xs text-white/40 text-center font-heading uppercase tracking-widest">
-                                    Shipping calculated at checkout
-                                </p>
                                 <Link
                                     href="/checkout"
                                     onClick={toggleCart}
                                     className="block w-full py-4 bg-neon-lime text-black font-heading text-xl uppercase tracking-widest rounded-xl hover:bg-[#ccff00] transition-colors shadow-[0_0_20px_rgba(204,255,0,0.3)] hover:shadow-[0_0_30px_rgba(204,255,0,0.5)] transform active:scale-[0.98] text-center"
                                 >
-                                    Checkout
+                                    Proceed to Checkout
                                 </Link>
                             </div>
                         )}

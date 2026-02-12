@@ -47,25 +47,53 @@ export default function CashAppCheckout({ items, totalPrice, onPaymentComplete }
                 throw new Error('Please fill in check all fields, including your $Cashtag.');
             }
 
-            const response = await fetch('/api/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    orderItems: items,
-                    totalPrice,
-                    status: 'Pending Payment',
-                }),
+            console.log("Sending order to API...", {
+                ...formData,
+                orderItems: items,
+                totalPrice,
+                status: 'Pending Payment',
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to create order. Please try again.');
-            }
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => {
+                console.warn("CLIENT SIDE TIMEOUT REACHED (60s)");
+                controller.abort();
+            }, 60000); // Increased to 60s for slow dev starts
 
-            setStep('payment');
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        orderItems: items,
+                        totalPrice,
+                        status: 'Pending Payment',
+                    }),
+                    signal: controller.signal,
+                });
+                clearTimeout(timeoutId);
+
+                console.log("API Response status:", response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error("API error data:", errorData);
+                    throw new Error(errorData.error || 'Failed to create order. Please try again.');
+                }
+
+                console.log("Order created successfully, moving to payment step.");
+                setStep('payment');
+            } catch (fetchErr: any) {
+                if (fetchErr.name === 'AbortError') {
+                    throw new Error('The request timed out. This often happens on the first order while the server wakes up. Please try again!');
+                }
+                throw fetchErr;
+            }
         } catch (err: any) {
+            console.error("Checkout submission error:", err);
             setError(err.message || 'Something went wrong.');
         } finally {
             setLoading(false);

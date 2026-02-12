@@ -15,7 +15,7 @@ export default function AboutPatti() {
                 .from("site_settings")
                 .select("value")
                 .eq("key", "about_text")
-                .single();
+                .maybeSingle();
             if (data?.value) setAboutText(data.value);
         };
         loadAbout();

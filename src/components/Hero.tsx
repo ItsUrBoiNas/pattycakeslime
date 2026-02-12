@@ -16,19 +16,19 @@ export default function Hero() {
                 .from("site_settings")
                 .select("value")
                 .eq("key", "hero_headline")
-                .single();
+                .maybeSingle();
 
             const { data: subData } = await supabase
                 .from("site_settings")
                 .select("value")
                 .eq("key", "hero_subheadline")
-                .single();
+                .maybeSingle();
 
             const { data: liveData } = await supabase
                 .from("site_settings")
                 .select("value")
                 .eq("key", "live_status_text")
-                .single();
+                .maybeSingle();
 
             if (headlineData?.value) setHeadline(headlineData.value);
             if (subData?.value) setSubHeadline(subData.value);

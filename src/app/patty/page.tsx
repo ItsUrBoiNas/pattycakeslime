@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
-import { Send, Trash2, Home, Package, Gem, Type, LifeBuoy, Radio, Video } from "lucide-react";
+import { Send, Trash2, Home, Package, Gem, Type, LifeBuoy, Radio, Video, ShoppingCart, Truck } from "lucide-react";
 import Link from "next/link";
 
 // Import Admin Components
@@ -12,6 +12,8 @@ import AccessoryManager from "@/components/admin/AccessoryManager";
 import SiteContentManager from "@/components/admin/SiteContentManager";
 import ContactSupport from "@/components/admin/ContactSupport";
 import ViralManager from "@/components/admin/ViralManager";
+import OrderManager from "@/components/admin/OrderManager";
+import ShippingManager from "@/components/admin/ShippingManager";
 
 export default function PattyAdmin() {
     const [activeTab, setActiveTab] = useState("live");
@@ -51,11 +53,13 @@ export default function PattyAdmin() {
 
     const tabs = [
         { id: "live", label: "Live Control", icon: Radio },
+        { id: "orders", label: "Orders", icon: ShoppingCart },
+        { id: "shipping", label: "Shipping", icon: Truck },
         { id: "products", label: "Slime Menu", icon: Package },
         { id: "accessories", label: "Toppings", icon: Gem },
         { id: "viral", label: "Viral Videos", icon: Video },
         { id: "content", label: "Site Text", icon: Type },
-        { id: "support", label: "Help", icon: LifeBuoy } // Intentionally using lowercase component name as icon if accessing lucide directly, but lucide exports distinct components. Let me check the icon name.
+        { id: "support", label: "Help", icon: LifeBuoy }
     ];
 
     return (
@@ -83,8 +87,7 @@ export default function PattyAdmin() {
                                     : "text-white/60 hover:text-white hover:bg-white/5"
                                     }`}
                             >
-                                {/* Fallback icon if LifeBuoy isn't exported as life_buoy */}
-                                {tab.id === 'support' ? <Home className="w-5 h-5 rotate-12" /> : <Icon className="w-5 h-5" />}
+                                <Icon className="w-5 h-5" />
                                 <span className="uppercase tracking-wider text-sm font-bold">{tab.label}</span>
                             </button>
                         );
@@ -152,6 +155,8 @@ export default function PattyAdmin() {
                         </div>
                     )}
 
+                    {activeTab === "orders" && <OrderManager />}
+                    {activeTab === "shipping" && <ShippingManager />}
                     {activeTab === "products" && <ProductManager />}
                     {activeTab === "accessories" && <AccessoryManager />}
                     {activeTab === "viral" && <ViralManager />}

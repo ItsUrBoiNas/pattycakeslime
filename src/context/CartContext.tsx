@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { supabase } from "@/lib/supabase";
 
 export interface Accessory {
     id: string;
@@ -28,6 +29,8 @@ interface CartContextType {
     isCartOpen: boolean;
     toggleCart: () => void;
     cartTotal: number;
+    subtotal: number;
+    shippingCost: number;
     cartCount: number;
 }
 
@@ -37,6 +40,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [shippingCost, setShippingCost] = useState<number>(0);
 
     // Load from local storage on mount
     useEffect(() => {
@@ -49,6 +53,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
             }
         }
         setIsLoaded(true);
+
+        // Fetch shipping cost
+        const fetchShipping = async () => {
+            const { data } = await supabase
+                .from("site_settings")
+                .select("value")
+                .eq("key", "shipping_cost")
+                .maybeSingle();
+            if (data?.value) {
+                setShippingCost(parseFloat(data.value));
+            }
+        };
+        fetchShipping();
     }, []);
 
     // Save to local storage whenever items change
@@ -114,7 +131,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setIsCartOpen(prev => !prev);
     };
 
-    const cartTotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const cartTotal = subtotal + (items.length > 0 ? shippingCost : 0);
     const cartCount = items.reduce((count, item) => count + item.quantity, 0);
 
     return (
@@ -127,6 +145,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
             isCartOpen,
             toggleCart,
             cartTotal,
+            subtotal,
+            shippingCost,
             cartCount
         }}>
             {children}
