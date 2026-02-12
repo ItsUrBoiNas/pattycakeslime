@@ -97,7 +97,7 @@ export default function PattiAdmin() {
                             <Lock className="w-10 h-10 text-black" />
                         </div>
                         <h1 className="text-3xl font-heading text-white uppercase italic tracking-tighter">
-                            Patti's <span className="text-neon-lime">Vault</span>
+                            Managers <span className="text-neon-lime">Only</span>
                         </h1>
                         <p className="text-white/60 uppercase tracking-widest text-xs mt-2 font-bold">Authorized Access Only</p>
                     </div>
