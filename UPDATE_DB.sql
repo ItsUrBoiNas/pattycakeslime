@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS accessories (
 INSERT INTO site_settings (key, value) VALUES
 ('hero_headline', 'PICK YOUR FLAVOR'),
 ('hero_subheadline', 'OFFICIAL MENU'),
-('about_text', 'Hi! I''m Patti, a grandma who loves making slime! I started this shop to share my creations with the world. Every slime is handmade with love and care.'),
+('about_text', 'Hi! I''m Patti, and I love making slime! I started this shop to share my creations with the world. Every slime is handmade with love and care.'),
 ('announcement_bar', 'Fast Shipping & Live Builds!')
 ON CONFLICT (key) DO NOTHING;
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
-import { Send, Trash2, Home, Package, Gem, Type, LifeBuoy, Radio } from "lucide-react";
+import { Send, Trash2, Home, Package, Gem, Type, LifeBuoy, Radio, Video } from "lucide-react";
 import Link from "next/link";
 
 // Import Admin Components
@@ -11,6 +11,7 @@ import ProductManager from "@/components/admin/ProductManager";
 import AccessoryManager from "@/components/admin/AccessoryManager";
 import SiteContentManager from "@/components/admin/SiteContentManager";
 import ContactSupport from "@/components/admin/ContactSupport";
+import ViralManager from "@/components/admin/ViralManager";
 
 export default function PattyAdmin() {
     const [activeTab, setActiveTab] = useState("live");
@@ -52,6 +53,7 @@ export default function PattyAdmin() {
         { id: "live", label: "Live Control", icon: Radio },
         { id: "products", label: "Slime Menu", icon: Package },
         { id: "accessories", label: "Toppings", icon: Gem },
+        { id: "viral", label: "Viral Videos", icon: Video },
         { id: "content", label: "Site Text", icon: Type },
         { id: "support", label: "Help", icon: LifeBuoy } // Intentionally using lowercase component name as icon if accessing lucide directly, but lucide exports distinct components. Let me check the icon name.
     ];
@@ -152,6 +154,7 @@ export default function PattyAdmin() {
 
                     {activeTab === "products" && <ProductManager />}
                     {activeTab === "accessories" && <AccessoryManager />}
+                    {activeTab === "viral" && <ViralManager />}
                     {activeTab === "content" && <SiteContentManager />}
                     {activeTab === "support" && <ContactSupport />}
                 </motion.div>

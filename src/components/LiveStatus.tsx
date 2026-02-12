@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 
 export default function LiveStatus() {
-    const [liveStatus, setLiveStatus] = useState("Grandma Patti is stirring up something special! ✨");
+    const [liveStatus, setLiveStatus] = useState("");
     const [isLive, setIsLive] = useState(false);
 
     useEffect(() => {
@@ -38,11 +38,16 @@ export default function LiveStatus() {
             setLiveStatus(data.value);
             // Check if message indicates "live" status
             setIsLive(data.value.toLowerCase().includes("live"));
+        } else {
+            setLiveStatus(""); // Ensure it clears if removed
+            setIsLive(false);
         }
     };
 
+    if (!liveStatus) return null;
+
     return (
-        <div className="w-full bg-[#1a0b2e] border-b border-white/10 py-2 sticky top-0 z-[1000]">
+        <div className="w-full bg-black border-b-2 border-neon-lime py-2 sticky top-0 z-[1000]">
             <div className="container mx-auto px-4 flex items-center justify-center gap-4">
                 <div className="flex items-center gap-2">
                     {isLive && (
@@ -57,7 +62,7 @@ export default function LiveStatus() {
                     )}
                 </div>
 
-                <p className="text-white/80 font-body text-sm text-center max-w-md">
+                <p className="text-white font-body text-sm text-center max-w-md">
                     {liveStatus}
                 </p>
 

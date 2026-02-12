@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
 
 -- 3. Insert initial live status if it doesn't exist
 INSERT INTO site_settings (key, value) 
-VALUES ('live_status', 'Grandma Patti is stirring up something special! Check back soon! ✨')
+VALUES ('live_status', 'Patti is stirring up something special! Check back soon! ✨')
 ON CONFLICT (key) DO NOTHING;
 
 -- 4. Insert initial products (optional, based on your current items)

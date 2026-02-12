@@ -1,21 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1a0b2e;
-  --foreground: #ffffff;
-  --neon-lime: #39ff14;
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --neon-lime: #39FF14;
+  --electric-blue: #00D2FF;
+  --vibrant-red: #FF0033;
+  --bright-yellow: #F9FF00;
   --hot-pink: #ff00ff;
   --deep-purple: #1a0b2e;
-  --cyan-pop: #00ffff;
+
+  /* Slime Pastels */
+  --slime-pink: #fff0f5;
+  --slime-blue: #e0faff;
+  --slime-green: #f0fdf4;
+  --slime-purple: #f3e8ff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-neon-lime: var(--neon-lime);
+  --color-electric-blue: var(--electric-blue);
+  --color-vibrant-red: var(--vibrant-red);
+  --color-bright-yellow: var(--bright-yellow);
   --color-hot-pink: var(--hot-pink);
   --color-deep-purple: var(--deep-purple);
-  --color-cyan-pop: var(--cyan-pop);
+  --color-slime-pink: var(--slime-pink);
+  --color-slime-blue: var(--slime-blue);
+  --color-slime-green: var(--slime-green);
+  --color-slime-purple: var(--slime-purple);
   --font-heading: var(--font-titan-one);
   --font-body: var(--font-fredoka);
 }
@@ -25,9 +39,17 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: var(--slime-pink);
   color: var(--foreground);
   font-family: var(--font-body), cursive;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(57, 255, 20, 0.05) 0%, transparent 20%);
+}
+
+::selection {
+  background-color: var(--neon-lime);
+  color: black;
 }
 
 h1,

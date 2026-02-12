@@ -49,8 +49,8 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-background pt-16">
-            <div className="absolute inset-0 z-0 opacity-20"
+        <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-slime-pink via-white to-slime-blue pt-16 pb-32">
+            <div className="absolute inset-0 z-0 opacity-30"
                 style={{ backgroundImage: 'radial-gradient(var(--neon-lime) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <motion.div
@@ -64,15 +64,18 @@ export default function Hero() {
                 transition={{ duration: 4, repeat: Infinity }}
             />
 
+            {/* Grid Pattern Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(57,255,20,0.2)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col items-center text-center">
                     {liveStatus && (
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-black/50 border-2 border-neon-lime px-6 py-2 rounded-full mb-8 shadow-[0_0_15px_rgba(57,255,20,0.5)]"
+                            className="bg-white border-2 border-black px-6 py-2 rounded-full mb-8 shadow-[4px_4px_0px_var(--neon-lime)]"
                         >
-                            <span className="text-neon-lime font-heading text-sm tracking-widest flex items-center gap-2">
+                            <span className="text-black font-heading text-sm tracking-widest flex items-center gap-2">
                                 <span className="relative flex h-3 w-3">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
@@ -85,25 +88,25 @@ export default function Hero() {
                     <motion.h1
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-6xl sm:text-8xl md:text-9xl font-heading text-white mb-6 leading-none drop-shadow-[0_8px_0px_#ff00ff] tracking-tighter uppercase"
+                        className="text-6xl sm:text-8xl md:text-9xl font-heading text-black mb-6 leading-none drop-shadow-[4px_4px_0px_var(--neon-lime)] tracking-tighter uppercase stroke-black"
                     >
                         {headline.split(' ').map((word, i) => (
                             <span key={i}>
-                                {i === 1 ? <><br /> <span className="text-neon-lime italic">{word}</span></> : word}
+                                {i === 1 ? <><br /> <span className="text-electric-blue italic">{word}</span></> : word}
                             </span>
                         ))}
                     </motion.h1>
 
-                    <p className="text-xl md:text-2xl text-neon-lime font-heading uppercase tracking-widest mb-12 shadow-[0_0_10px_rgba(57,255,20,0.3)]">
+                    <p className="text-xl md:text-2xl text-vibrant-red font-heading uppercase tracking-widest mb-12">
                         {subHeadline}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
                         <motion.a
                             href="#shop"
-                            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(57, 255, 20, 0.6)" }}
+                            whileHover={{ scale: 1.05, boxShadow: "8px 8px 0px #000" }}
                             whileTap={{ scale: 0.95 }}
-                            className="flex-1 bg-neon-lime text-black font-heading text-2xl py-6 rounded-2xl border-4 border-black shadow-[8px_8px_0px_#fff] flex items-center justify-center gap-3 no-underline"
+                            className="flex-1 bg-neon-lime text-black font-heading text-2xl py-6 rounded-2xl border-4 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center gap-3 no-underline"
                         >
                             <ShoppingBag className="w-8 h-8 fill-current" />
                             SHOP THE MENU
@@ -122,20 +125,14 @@ export default function Hero() {
                         </motion.a>
                     </div>
 
-                    <div className="mt-16 flex items-center gap-4 text-white/40 font-heading text-xs uppercase tracking-[0.2em]">
-                        <span className="h-[1px] w-12 bg-white/20"></span>
-                        Trusted by 50k+ Slime Fans
-                        <span className="h-[1px] w-12 bg-white/20"></span>
-                    </div>
                 </div>
             </div>
 
-            <div className="absolute top-0 left-0 w-full h-12 bg-neon-lime shadow-[0_4px_10px_rgba(57,255,20,0.5)] z-20 overflow-hidden">
-                <div className="flex">
-                    {Array.from({ length: 20 }).map((_, i) => (
-                        <div key={i} className="w-1/20 h-16 bg-neon-lime rounded-full -mt-8 mx-1 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
-                    ))}
-                </div>
+            {/* Bottom Slime Drip Divider */}
+            <div className="absolute bottom-0 left-0 w-full leading-none z-20">
+                <svg className="w-full h-12 md:h-24 text-slime-purple fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+                </svg>
             </div>
         </section>
     );

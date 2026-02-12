@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero";
 import LiveStatus from "@/components/LiveStatus";
-import LiveQueue from "@/components/LiveQueue";
+
 import BestSellers from "@/components/BestSellers";
 import CharmGallery from "@/components/CharmGallery";
 import TikTokFeed from "@/components/TikTokFeed";
@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <LiveStatus />
       <Hero />
-      <LiveQueue />
+
       <BestSellers />
       <CharmGallery />
       <TikTokFeed />

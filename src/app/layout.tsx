@@ -3,6 +3,8 @@ import { Fredoka, Nunito, Titan_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/CartDrawer";
 
 const fredoka = Fredoka({
   variable: "--font-fredoka",
@@ -23,9 +25,9 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "PattiCakeSlime | Handmade Slime by Grandma Patti 🍰",
+  title: "PattiCakeSlime | Handmade Slime by Patti 🍰",
   description:
-    "The squishiest, stretchiest, most satisfying handmade slime — crafted with love by Grandma Patti. Shop cloud slime, butter slime, crunchy slime & more!",
+    "The squishiest, stretchiest, most satisfying handmade slime — crafted with love by Patti. Shop cloud slime, butter slime, crunchy slime & more!",
   keywords: ["slime", "handmade slime", "cloud slime", "butter slime", "slime shop", "PattiCakeSlime"],
 };
 
@@ -39,9 +41,12 @@ export default function RootLayout({
       <body
         className={`${fredoka.variable} ${nunito.variable} ${titanOne.variable} antialiased bg-background text-foreground`}
       >
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <CartDrawer />
+          <main>{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

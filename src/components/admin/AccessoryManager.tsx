@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plus, Trash2, Edit3, X, Gem, ToggleLeft, ToggleRight } from "lucide-react";
+import { Plus, Trash2, Edit3, X, Gem, ToggleLeft, ToggleRight, Image as ImageIcon, Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface Accessory {
@@ -10,6 +10,27 @@ interface Accessory {
     name: string;
     price: number;
     is_active: boolean;
+    image_url?: string;
+}
+
+async function uploadImage(file: File) {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, file);
+
+    if (uploadError) {
+        throw uploadError;
+    }
+
+    const { data } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+    return data.publicUrl;
 }
 
 export default function AccessoryManager() {
@@ -35,13 +56,25 @@ export default function AccessoryManager() {
         if (!error) loadAccessories();
     };
 
-    const handleUpdate = async (acc: Accessory) => {
+    const handleUpdate = async (acc: Accessory, newImageFile?: File) => {
+        let imageUrl = acc.image_url;
+
+        if (newImageFile) {
+            try {
+                imageUrl = await uploadImage(newImageFile);
+            } catch (error) {
+                alert("Error uploading image: " + error);
+                return;
+            }
+        }
+
         const { error } = await supabase
             .from("accessories")
             .update({
                 name: acc.name,
                 price: acc.price,
-                is_active: acc.is_active
+                is_active: acc.is_active,
+                image_url: imageUrl
             })
             .eq("id", acc.id);
 
@@ -85,13 +118,19 @@ export default function AccessoryManager() {
                         className={`glass p-4 rounded-2xl border ${acc.is_active ? 'border-white/10' : 'border-red-500/30 bg-red-500/5'}`}
                     >
                         <div className="flex justify-between items-start mb-2">
-                            <div className="flex items-center gap-2">
-                                <div className="p-2 bg-white/5 rounded-lg">
-                                    <Gem className="w-5 h-5 text-hot-pink" />
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-white/5 rounded-lg overflow-hidden flex-shrink-0">
+                                    {acc.image_url ? (
+                                        <img src={acc.image_url} alt={acc.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-white/20">
+                                            <Gem className="w-6 h-6" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
-                                    <h3 className="font-heading text-white">{acc.name}</h3>
-                                    <p className="text-neon-lime font-mono">${acc.price.toFixed(2)}</p>
+                                    <h3 className="font-heading text-white text-sm">{acc.name}</h3>
+                                    <p className="text-neon-lime font-mono text-xs">${acc.price.toFixed(2)}</p>
                                 </div>
                             </div>
                             <button onClick={() => toggleActive(acc)} className="text-white/40 hover:text-white transition-colors">
@@ -138,8 +177,16 @@ export default function AccessoryManager() {
     );
 }
 
-function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accessory; onClose: () => void; onSave: (a: Accessory) => void }) {
+function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accessory; onClose: () => void; onSave: (a: Accessory, file?: File) => void }) {
     const [edited, setEdited] = useState(accessory);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
+
+    const handleSave = async () => {
+        setIsUploading(true);
+        await onSave(edited, imageFile || undefined);
+        setIsUploading(false);
+    };
 
     return (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -148,7 +195,13 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
                 animate={{ opacity: 1, scale: 1 }}
                 className="glass p-8 rounded-[32px] border border-white/10 max-w-sm w-full"
             >
-                <h2 className="text-xl font-heading text-white mb-6">Edit Accessory</h2>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-heading text-white">Edit Accessory</h2>
+                    <button onClick={onClose} className="text-white/60 hover:text-white">
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
+
                 <div className="space-y-4">
                     <div>
                         <label className="text-xs font-bold text-white/40 uppercase ml-1">Name</label>
@@ -168,13 +221,34 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
                             className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-neon-lime/50"
                         />
                     </div>
+
+                    <div>
+                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
+                        <div className="flex items-center gap-3">
+                            {edited.image_url && !imageFile && (
+                                <img src={edited.image_url} alt="Current" className="w-12 h-12 object-cover rounded-lg border border-white/10" />
+                            )}
+                            <label className="flex-1 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+                                <Upload className="w-4 h-4" />
+                                <span className="text-xs font-bold">{imageFile ? "Change Image" : "Upload Image"}</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                                />
+                            </label>
+                        </div>
+                        {imageFile && <p className="text-xs text-neon-lime mt-1 ml-1">{imageFile.name}</p>}
+                    </div>
+
                     <button
-                        onClick={() => onSave(edited)}
-                        className="w-full bg-neon-lime text-black font-heading py-3 rounded-xl hover:shadow-[0_0_15px_rgba(57,255,20,0.3)] active:scale-95 transition-all"
+                        onClick={handleSave}
+                        disabled={isUploading}
+                        className="w-full bg-neon-lime text-black font-heading py-3 rounded-xl hover:shadow-[0_0_15px_rgba(57,255,20,0.3)] active:scale-95 transition-all disabled:opacity-50"
                     >
-                        Save Changes
+                        {isUploading ? "Saving..." : "Save Changes"}
                     </button>
-                    <button onClick={onClose} className="w-full text-white/40 hover:text-white text-sm py-2">Cancel</button>
                 </div>
             </motion.div>
         </div>
@@ -182,14 +256,32 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
 }
 
 function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
-    const [newAcc, setNewAcc] = useState({ name: "", price: 1.00, is_active: true });
+    const [newAcc, setNewAcc] = useState({ name: "", price: 1.00, is_active: true, image_url: "" });
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [isAdding, setIsAdding] = useState(false);
 
     const handleAdd = async () => {
         if (!newAcc.name) return;
         setIsAdding(true);
-        const { error } = await supabase.from("accessories").insert([newAcc]);
-        if (!error) onSuccess();
+
+        let imageUrl = "";
+        if (imageFile) {
+            try {
+                imageUrl = await uploadImage(imageFile);
+            } catch (error) {
+                alert("Error uploading image: " + error);
+                setIsAdding(false);
+                return;
+            }
+        }
+
+        const { error } = await supabase.from("accessories").insert([{ ...newAcc, image_url: imageUrl }]);
+
+        if (!error) {
+            onSuccess();
+        } else {
+            alert("Error adding: " + error.message);
+        }
         setIsAdding(false);
     };
 
@@ -200,7 +292,13 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                 animate={{ opacity: 1, scale: 1 }}
                 className="glass p-8 rounded-[32px] border border-white/10 max-w-sm w-full"
             >
-                <h2 className="text-xl font-heading text-white mb-6">New Accessory</h2>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-heading text-white">New Accessory</h2>
+                    <button onClick={onClose} className="text-white/60 hover:text-white">
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
+
                 <div className="space-y-4">
                     <div>
                         <label className="text-xs font-bold text-white/40 uppercase ml-1">Name</label>
@@ -221,6 +319,24 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                             className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-neon-lime/50"
                         />
                     </div>
+
+                    <div>
+                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
+                        <div className="flex items-center gap-3">
+                            <label className="flex-1 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+                                <Upload className="w-4 h-4" />
+                                <span className="text-xs font-bold">{imageFile ? "Change Image" : "Upload Image"}</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                                />
+                            </label>
+                        </div>
+                        {imageFile && <p className="text-xs text-neon-lime mt-1 ml-1">{imageFile.name}</p>}
+                    </div>
+
                     <button
                         onClick={handleAdd}
                         disabled={isAdding}
@@ -228,7 +344,6 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                     >
                         {isAdding ? "Adding..." : "Add Item"}
                     </button>
-                    <button onClick={onClose} className="w-full text-white/40 hover:text-white text-sm py-2">Cancel</button>
                 </div>
             </motion.div>
         </div>

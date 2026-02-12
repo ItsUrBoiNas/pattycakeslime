@@ -5,11 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ShoppingCart, Zap, Check, Gem } from "lucide-react";
 import Image from "next/image";
 
-interface Accessory {
-    id: string;
-    name: string;
-    price: number;
-}
+import { useCart, Accessory } from "@/context/CartContext";
 
 interface ProductCardProps {
     name: string;
@@ -34,6 +30,8 @@ export default function ProductCard({
     const [makeItLive, setMakeItLive] = useState(false);
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     const [added, setAdded] = useState(false);
+
+    const { addToCart } = useCart();
 
     // Calculate total
     const accessoriesTotal = selectedAccessories.reduce((sum, id) => {
@@ -76,8 +74,16 @@ export default function ProductCard({
 
     const handleAddToCart = () => {
         setAdded(true);
-        // Here you would actually add to cart
-        console.log("Added to cart:", { name, finalPrice, makeItLive, selectedAccessories });
+
+        // Get full accessory objects
+        const selectedAccessoryObjects = accessories.filter(a => selectedAccessories.includes(a.id));
+
+        addToCart(
+            { name, price, image },
+            selectedAccessoryObjects,
+            makeItLive
+        );
+
         setTimeout(() => setAdded(false), 2000);
     };
 
@@ -97,12 +103,12 @@ export default function ProductCard({
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-[#1a0b2e] border-2 border-white/5 rounded-[2rem] overflow-hidden group p-3 flex flex-col h-full shadow-2xl relative"
+                className="bg-white border-4 border-black rounded-[2rem] overflow-hidden group p-3 flex flex-col h-full shadow-[8px_8px_0px_var(--neon-lime)] hover:shadow-[12px_12px_0px_var(--hot-pink)] transition-shadow duration-300 relative"
             >
                 {/* Image Area */}
-                <div className="relative aspect-square rounded-[1.5rem] overflow-hidden bg-black/40 border border-white/5 mb-4 px-4 pt-4">
+                <div className="relative aspect-square rounded-[1.5rem] overflow-hidden bg-gray-50 border-2 border-black/5 mb-4 px-4 pt-4">
                     {tag && (
-                        <div className="absolute top-4 left-4 z-10 bg-white text-black font-heading text-[10px] px-3 py-1 rounded-md shadow-lg uppercase tracking-widest border border-black">
+                        <div className="absolute top-4 left-4 z-10 bg-electric-blue text-white font-heading text-[10px] px-3 py-1 rounded-md shadow-lg uppercase tracking-widest border-2 border-black">
                             {tag}
                         </div>
                     )}
@@ -123,12 +129,12 @@ export default function ProductCard({
                 {/* Content */}
                 <div className="flex flex-col flex-grow px-2 pb-2">
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl font-heading text-white uppercase tracking-tight">{name}</h3>
-                        <span className="text-neon-lime font-heading text-xl">${finalPrice.toFixed(2)}</span>
+                        <h3 className="text-xl font-heading text-black uppercase tracking-tight">{name}</h3>
+                        <span className="text-vibrant-red font-heading text-xl">${finalPrice.toFixed(2)}</span>
                     </div>
 
                     {description && (
-                        <p className="text-[10px] text-white/40 font-heading uppercase tracking-widest mb-4">
+                        <p className="text-[10px] text-black/60 font-heading uppercase tracking-widest mb-4">
                             {description}
                         </p>
                     )}
@@ -136,7 +142,7 @@ export default function ProductCard({
                     {/* Accessories */}
                     {accessories.length > 0 && (
                         <div className="mb-4 space-y-2">
-                            <p className="text-[10px] text-white/40 font-heading uppercase tracking-widest">Customize:</p>
+                            <p className="text-[10px] text-black/40 font-heading uppercase tracking-widest">Customize:</p>
                             <div className="flex flex-wrap gap-2">
                                 {accessories.map(acc => {
                                     const isSelected = selectedAccessories.includes(acc.id);
@@ -144,9 +150,9 @@ export default function ProductCard({
                                         <button
                                             key={acc.id}
                                             onClick={() => toggleAccessory(acc.id)}
-                                            className={`text-[10px] px-2 py-1 rounded-lg border transition-all flex items-center gap-1 ${isSelected
-                                                    ? "bg-hot-pink text-white border-white/20 shadow-[0_0_10px_rgba(255,0,255,0.4)]"
-                                                    : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                                            className={`text-[10px] px-2 py-1 rounded-lg border-2 transition-all flex items-center gap-1 font-bold ${isSelected
+                                                ? "bg-hot-pink text-white border-black shadow-[2px_2px_0px_black]"
+                                                : "bg-gray-100 text-black/60 border-transparent hover:bg-gray-200"
                                                 }`}
                                         >
                                             {isSelected && <Check className="w-3 h-3" />}
@@ -162,20 +168,20 @@ export default function ProductCard({
                     <button
                         onClick={() => setMakeItLive(!makeItLive)}
                         className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all mb-4 ${makeItLive
-                            ? 'border-neon-lime bg-neon-lime/10 shadow-[0_0_15px_rgba(57,255,20,0.2)]'
-                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                            ? 'border-black bg-neon-lime shadow-[4px_4px_0px_black]'
+                            : 'border-black/5 bg-gray-50 hover:border-black/10'
                             }`}
                     >
                         <div className="flex items-center gap-2">
-                            <div className={`p-1.5 rounded-lg ${makeItLive ? 'bg-neon-lime text-black' : 'bg-white/10 text-white/40'}`}>
+                            <div className={`p-1.5 rounded-lg ${makeItLive ? 'bg-black text-neon-lime' : 'bg-black/5 text-black/40'}`}>
                                 <Zap className="w-4 h-4" />
                             </div>
-                            <span className={`text-[10px] font-heading uppercase tracking-widest ${makeItLive ? 'text-white' : 'text-white/40'}`}>
+                            <span className={`text-[10px] font-heading uppercase tracking-widest ${makeItLive ? 'text-black font-bold' : 'text-black/40'}`}>
                                 Make it Live
                             </span>
                         </div>
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${makeItLive ? 'border-neon-lime bg-neon-lime' : 'border-white/20'}`}>
-                            {makeItLive && <Check className="w-3 h-3 text-black stroke-[3px]" />}
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${makeItLive ? 'border-black bg-black' : 'border-black/20'}`}>
+                            {makeItLive && <Check className="w-3 h-3 text-neon-lime stroke-[3px]" />}
                         </div>
                     </button>
 
@@ -187,7 +193,7 @@ export default function ProductCard({
                             whileTap={{ scale: 0.98 }}
                             className={`w-full flex items-center justify-center gap-2 font-heading py-4 rounded-xl border-2 border-black transition-all ${added
                                 ? 'bg-green-500 text-white border-green-600'
-                                : 'bg-white text-black shadow-[4px_4px_0px_var(--neon-lime)] hover:shadow-none'
+                                : 'bg-bright-yellow text-black shadow-[4px_4px_0px_var(--vibrant-red)] hover:shadow-none'
                                 }`}
                         >
                             {added ? (

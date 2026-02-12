@@ -39,7 +39,7 @@ async function setupDatabase() {
         .from('site_settings')
         .upsert({
             key: 'live_status',
-            value: 'Grandma Patti is stirring up something special! Check back soon! ✨'
+            value: 'Patti is stirring up something special! Check back soon! ✨'
         }, { onConflict: 'key' });
 
     if (statusError) {

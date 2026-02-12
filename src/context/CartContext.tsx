@@ -1,0 +1,143 @@
+"use client";
+
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+export interface Accessory {
+    id: string;
+    name: string;
+    price: number;
+}
+
+export interface CartItem {
+    id: string; // Unique ID for the cart item (product ID + options)
+    productId: string;
+    name: string;
+    price: number;
+    image: string;
+    quantity: number;
+    selectedAccessories: Accessory[];
+    isLive: boolean; // "Make it Live" option
+}
+
+interface CartContextType {
+    items: CartItem[];
+    addToCart: (product: any, accessories: Accessory[], isLive: boolean) => void;
+    removeFromCart: (id: string) => void;
+    updateQuantity: (id: string, quantity: number) => void;
+    clearCart: () => void;
+    isCartOpen: boolean;
+    toggleCart: () => void;
+    cartTotal: number;
+    cartCount: number;
+}
+
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export function CartProvider({ children }: { children: ReactNode }) {
+    const [items, setItems] = useState<CartItem[]>([]);
+    const [isCartOpen, setIsCartOpen] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Load from local storage on mount
+    useEffect(() => {
+        const savedCart = localStorage.getItem("pattycakeslime-cart");
+        if (savedCart) {
+            try {
+                setItems(JSON.parse(savedCart));
+            } catch (e) {
+                console.error("Failed to parse cart from local storage", e);
+            }
+        }
+        setIsLoaded(true);
+    }, []);
+
+    // Save to local storage whenever items change
+    useEffect(() => {
+        if (isLoaded) {
+            localStorage.setItem("pattycakeslime-cart", JSON.stringify(items));
+        }
+    }, [items, isLoaded]);
+
+    const addToCart = (product: any, accessories: Accessory[], isLive: boolean) => {
+        // Create a unique ID based on product ID and options
+        // Since we don't have real product IDs in the ProductCard yet, we'll use name as part of the ID
+        const accessoryIds = accessories.map(a => a.id).sort().join("-");
+        const uniqueId = `${product.name}-${accessoryIds}-${isLive}`;
+
+        setItems(prev => {
+            const existingItem = prev.find(item => item.id === uniqueId);
+            if (existingItem) {
+                return prev.map(item =>
+                    item.id === uniqueId
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            }
+
+            // Calculate base price + accessories
+            // Note: ProductCard passes the base price. Accessories have their own prices.
+            let unitPrice = product.price;
+            accessories.forEach(acc => unitPrice += acc.price);
+
+            return [...prev, {
+                id: uniqueId,
+                productId: product.name, // Using name as ID for now if no ID provided
+                name: product.name,
+                price: unitPrice,
+                image: product.image,
+                quantity: 1,
+                selectedAccessories: accessories,
+                isLive
+            }];
+        });
+
+        setIsCartOpen(true);
+    };
+
+    const removeFromCart = (id: string) => {
+        setItems(prev => prev.filter(item => item.id !== id));
+    };
+
+    const updateQuantity = (id: string, quantity: number) => {
+        if (quantity < 1) {
+            removeFromCart(id);
+            return;
+        }
+        setItems(prev => prev.map(item => item.id === id ? { ...item, quantity } : item));
+    };
+
+    const clearCart = () => {
+        setItems([]);
+    };
+
+    const toggleCart = () => {
+        setIsCartOpen(prev => !prev);
+    };
+
+    const cartTotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const cartCount = items.reduce((count, item) => count + item.quantity, 0);
+
+    return (
+        <CartContext.Provider value={{
+            items,
+            addToCart,
+            removeFromCart,
+            updateQuantity,
+            clearCart,
+            isCartOpen,
+            toggleCart,
+            cartTotal,
+            cartCount
+        }}>
+            {children}
+        </CartContext.Provider>
+    );
+}
+
+export function useCart() {
+    const context = useContext(CartContext);
+    if (context === undefined) {
+        throw new Error("useCart must be used within a CartProvider");
+    }
+    return context;
+}

@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function AboutPatti() {
     const [aboutText, setAboutText] = useState("I don't do boring restocks. I create in the moment.");
+    const [imageError, setImageError] = useState(false);
 
     useEffect(() => {
         const loadAbout = async () => {
@@ -35,7 +36,7 @@ export default function AboutPatti() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
-                    className="bg-[#1a0b2e] border-4 border-white/5 rounded-[3rem] overflow-hidden shadow-2xl"
+                    className="bg-white border-4 border-black rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_var(--electric-blue)]"
                 >
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Creator Profile */}
@@ -51,9 +52,20 @@ export default function AboutPatti() {
                                         rotate: [0, 2, -2, 0]
                                     }}
                                     transition={{ duration: 4, repeat: Infinity }}
-                                    className="text-[12rem] md:text-[15rem] leading-none mb-6 drop-shadow-[10px_10px_0px_var(--neon-lime)]"
+                                    className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 drop-shadow-[10px_10px_0px_var(--neon-lime)]"
                                 >
-                                    👵🏻
+                                    {imageError ? (
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-white/20 rounded-full border-4 border-white backdrop-blur-sm">
+                                            <Zap className="w-24 h-24 text-white drop-shadow-lg" />
+                                        </div>
+                                    ) : (
+                                        <img
+                                            src="/logo.png"
+                                            alt="PattiCake Slime Logo"
+                                            className="w-full h-full object-contain"
+                                            onError={() => setImageError(true)}
+                                        />
+                                    )}
                                 </motion.div>
                                 <div className="bg-black/80 backdrop-blur-md px-6 py-2 rounded-xl border border-white/20">
                                     <p className="text-white font-heading text-lg tracking-[0.2em] uppercase">PattiCakeSlime</p>
@@ -67,26 +79,26 @@ export default function AboutPatti() {
                         </div>
 
                         {/* Story */}
-                        <div className="p-8 md:p-16 flex flex-col justify-center bg-black/40">
+                        <div className="p-8 md:p-16 flex flex-col justify-center bg-white">
                             <div className="flex items-center gap-3 mb-8">
-                                <Zap className="w-8 h-8 text-neon-lime fill-current" />
-                                <h2 className="text-4xl md:text-6xl font-heading text-white leading-none">
-                                    THE <span className="text-neon-lime italic">PATTICAKE</span> WAY
+                                <Zap className="w-8 h-8 text-black fill-current" />
+                                <h2 className="text-4xl md:text-6xl font-heading text-black leading-none drop-shadow-[4px_4px_0px_var(--neon-lime)] stroke-black">
+                                    THE <span className="text-electric-blue italic">PATTICAKE</span> WAY
                                 </h2>
                             </div>
 
-                            <div className="space-y-6 text-lg text-white/70 font-body leading-relaxed whitespace-pre-wrap">
+                            <div className="space-y-6 text-lg text-black/80 font-body leading-relaxed whitespace-pre-wrap font-medium">
                                 {aboutText}
                             </div>
 
                             <div className="mt-12 flex flex-wrap gap-4">
-                                <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                                    <Camera className="w-4 h-4 text-neon-lime" />
-                                    <span className="text-xs font-heading text-white uppercase tracking-wider">TikTok Sensation</span>
+                                <div className="flex items-center gap-2 bg-gray-100 border border-black/10 px-4 py-2 rounded-xl">
+                                    <Camera className="w-4 h-4 text-electric-blue" />
+                                    <span className="text-xs font-heading text-black uppercase tracking-wider">TikTok Sensation</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                                    <Heart className="w-4 h-4 text-hot-pink" />
-                                    <span className="text-xs font-heading text-white uppercase tracking-wider">Handmade Live</span>
+                                <div className="flex items-center gap-2 bg-gray-100 border border-black/10 px-4 py-2 rounded-xl">
+                                    <Heart className="w-4 h-4 text-vibrant-red" />
+                                    <span className="text-xs font-heading text-black uppercase tracking-wider">Handmade Live</span>
                                 </div>
                             </div>
                         </div>
