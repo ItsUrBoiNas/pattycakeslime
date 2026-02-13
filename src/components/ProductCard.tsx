@@ -102,11 +102,11 @@ export default function ProductCard({
             >
                 {/* Image Area */}
                 <div className="relative aspect-square rounded-[1.5rem] overflow-hidden bg-gray-50 border-2 border-black/5 mb-4 px-4 pt-4">
-                    {tag && (
+                    {/* {tag && (
                         <div className="absolute top-4 left-4 z-10 bg-electric-blue text-white font-heading text-[10px] px-3 py-1 rounded-md shadow-lg uppercase tracking-widest border-2 border-black">
                             {tag}
                         </div>
-                    )}
+                    )} */}
                     <motion.div
                         animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
                         className="w-full h-full"
