@@ -151,7 +151,7 @@ function ProductCard({ product, onDelete, onEdit }: { product: Product; onDelete
                         <ImageIcon className="w-16 h-16" />
                     </div>
                 )}
-                <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                <div className="absolute top-4 right-4 flex gap-2 opacity-100 translate-y-0 md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all">
                     <button
                         onClick={() => onEdit(product)}
                         className="p-2.5 bg-deep-purple/90 backdrop-blur-md rounded-xl text-white hover:text-cyan-pop transition-colors shadow-xl"
