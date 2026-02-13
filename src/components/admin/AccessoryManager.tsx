@@ -98,7 +98,7 @@ export default function AccessoryManager() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-heading text-white">Accessories & Add-ons</h2>
-                    <p className="text-white/40 text-sm font-body">Manage toppings, charms, and extras ({accessories.length} items)</p>
+                    <p className="text-white/40 text-sm font-body">Manage free toppings, charms, and extras ({accessories.length} items)</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
@@ -184,7 +184,9 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
 
     const handleSave = async () => {
         setIsUploading(true);
-        await onSave(edited, imageFile || undefined);
+        // Enforce price as 0 for all accessories
+        const accessoryToSave = { ...edited, price: 0 };
+        await onSave(accessoryToSave, imageFile || undefined);
         setIsUploading(false);
     };
 
@@ -211,16 +213,7 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
                             className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-neon-lime/50"
                         />
                     </div>
-                    <div>
-                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Price ($)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            value={edited.price}
-                            onChange={(e) => setEdited({ ...edited, price: parseFloat(e.target.value) })}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-neon-lime/50"
-                        />
-                    </div>
+
 
                     <div>
                         <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
@@ -256,7 +249,7 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
 }
 
 function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
-    const [newAcc, setNewAcc] = useState({ name: "", price: 1.00, is_active: true, image_url: "" });
+    const [newAcc, setNewAcc] = useState({ name: "", price: 0, is_active: true, image_url: "" });
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [isAdding, setIsAdding] = useState(false);
 
@@ -309,16 +302,7 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                             placeholder="e.g. Glitter Packet"
                         />
                     </div>
-                    <div>
-                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Price ($)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            value={newAcc.price}
-                            onChange={(e) => setNewAcc({ ...newAcc, price: parseFloat(e.target.value) })}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-neon-lime/50"
-                        />
-                    </div>
+
 
                     <div>
                         <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
