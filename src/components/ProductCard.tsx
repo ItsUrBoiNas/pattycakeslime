@@ -128,11 +128,11 @@ export default function ProductCard({
                         <span className="text-vibrant-red font-heading text-xl">${finalPrice.toFixed(2)}</span>
                     </div>
 
-                    {description && (
+                    {/* {description && (
                         <p className="text-[10px] text-black/60 font-heading uppercase tracking-widest mb-4">
                             {description}
                         </p>
-                    )}
+                    )} */}
 
                     {/* Accessories */}
                     {accessories.length > 0 && (
