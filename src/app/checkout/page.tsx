@@ -41,7 +41,7 @@ export default function CheckoutPage() {
         const accessoryText = item.selectedAccessories.length > 0
             ? ` + ${item.selectedAccessories.map((a) => a.name).join(', ')}`
             : '';
-        const liveText = item.isLive ? ' (LIVE)' : '';
+
 
         // Calculate price per item including accessories
         let unitPrice = item.price; // This already includes accessories logic in CartContext? 
@@ -50,7 +50,7 @@ export default function CheckoutPage() {
         // So item.price in CartContext is the fully loaded unit price.
 
         return {
-            name: `${item.name}${liveText}${accessoryText}`,
+            name: `${item.name}${accessoryText}`,
             quantity: item.quantity,
             price: item.price,
         };

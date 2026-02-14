@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Play, ExternalLink } from "lucide-react";
+import { Play } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface ViralVideo {
@@ -61,24 +61,10 @@ export default function TikTokFeed() {
                     className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6"
                 >
                     <div className="text-left">
-                        <span className="inline-block bg-white text-black text-xs font-heading px-4 py-1.5 rounded-lg mb-4 uppercase tracking-[0.2em] shadow-[4px_4px_0px_var(--neon-lime)] border-2 border-black">
-                            @patticakelive
-                        </span>
                         <h2 className="text-5xl md:text-8xl font-heading text-black leading-none tracking-tighter drop-shadow-[4px_4px_0px_var(--neon-lime)] stroke-black">
                             VIRAL MOMENTS
                         </h2>
                     </div>
-                    <motion.a
-                        href="https://www.tiktok.com/@patticakelive"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center gap-2 bg-neon-lime text-black font-heading text-sm px-8 py-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_#fff]"
-                    >
-                        <ExternalLink className="w-5 h-5" />
-                        FOLLOW THE LIVE
-                    </motion.a>
                 </motion.div>
 
                 {/* Horizontal Scroll Container */}

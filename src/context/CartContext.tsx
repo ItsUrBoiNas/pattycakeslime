@@ -17,12 +17,11 @@ export interface CartItem {
     image: string;
     quantity: number;
     selectedAccessories: Accessory[];
-    isLive: boolean; // "Make it Live" option
 }
 
 interface CartContextType {
     items: CartItem[];
-    addToCart: (product: any, accessories: Accessory[], isLive: boolean) => void;
+    addToCart: (product: any, accessories: Accessory[]) => void;
     removeFromCart: (id: string) => void;
     updateQuantity: (id: string, quantity: number) => void;
     clearCart: () => void;
@@ -75,11 +74,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
     }, [items, isLoaded]);
 
-    const addToCart = (product: any, accessories: Accessory[], isLive: boolean) => {
+    const addToCart = (product: any, accessories: Accessory[]) => {
         // Create a unique ID based on product ID and options
         // Since we don't have real product IDs in the ProductCard yet, we'll use name as part of the ID
         const accessoryIds = accessories.map(a => a.id).sort().join("-");
-        const uniqueId = `${product.name}-${accessoryIds}-${isLive}`;
+        const uniqueId = `${product.name}-${accessoryIds}`;
 
         setItems(prev => {
             const existingItem = prev.find(item => item.id === uniqueId);
@@ -102,8 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 price: unitPrice,
                 image: product.image,
                 quantity: 1,
-                selectedAccessories: accessories,
-                isLive
+                selectedAccessories: accessories
             }];
         });
 

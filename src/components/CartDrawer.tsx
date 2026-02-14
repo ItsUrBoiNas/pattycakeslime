@@ -125,12 +125,7 @@ export default function CartDrawer() {
 
                                             {/* Accessories & Options */}
                                             <div className="mt-1 space-y-1">
-                                                {item.isLive && (
-                                                    <div className="flex items-center gap-1.5 text-neon-lime text-[10px] font-heading uppercase tracking-wider">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-neon-lime animate-pulse" />
-                                                        Make it Live
-                                                    </div>
-                                                )}
+
                                                 {item.selectedAccessories.length > 0 && (
                                                     <div className="flex flex-wrap gap-1">
                                                         {item.selectedAccessories.map((acc: any) => (

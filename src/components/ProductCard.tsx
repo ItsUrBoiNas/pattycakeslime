@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ShoppingCart, Zap, Check, Gem } from "lucide-react";
+import { ShoppingCart, Check, Gem } from "lucide-react";
 import Image from "next/image";
 
 import { useCart, Accessory } from "@/context/CartContext";
@@ -26,8 +26,8 @@ export default function ProductCard({
     accessories = []
 }: ProductCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
+    const [imageError, setImageError] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const [makeItLive, setMakeItLive] = useState(false);
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     const [added, setAdded] = useState(false);
 
@@ -75,8 +75,7 @@ export default function ProductCard({
 
         addToCart(
             { name, price, image },
-            selectedAccessoryObjects,
-            makeItLive
+            selectedAccessoryObjects
         );
 
         setTimeout(() => setAdded(false), 2000);
@@ -109,15 +108,22 @@ export default function ProductCard({
                     )} */}
                     <motion.div
                         animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
-                        className="w-full h-full"
+                        className="w-full h-full flex items-center justify-center"
                     >
-                        <Image
-                            src={image}
-                            alt={name}
-                            width={400}
-                            height={400}
-                            className="object-contain w-full h-full"
-                        />
+                        {imageError ? (
+                            <div className="text-black/10 font-heading text-4xl uppercase tracking-widest text-center select-none">
+                                Slime
+                            </div>
+                        ) : (
+                            <Image
+                                src={image}
+                                alt={name}
+                                width={400}
+                                height={400}
+                                className="object-contain w-full h-full"
+                                onError={() => setImageError(true)}
+                            />
+                        )}
                     </motion.div>
                 </div>
 
@@ -159,26 +165,7 @@ export default function ProductCard({
                         </div>
                     )}
 
-                    {/* Make it Live Toggle */}
-                    <button
-                        onClick={() => setMakeItLive(!makeItLive)}
-                        className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all mb-4 ${makeItLive
-                            ? 'border-black bg-neon-lime shadow-[4px_4px_0px_black]'
-                            : 'border-black/5 bg-gray-50 hover:border-black/10'
-                            }`}
-                    >
-                        <div className="flex items-center gap-2">
-                            <div className={`p-1.5 rounded-lg ${makeItLive ? 'bg-black text-neon-lime' : 'bg-black/5 text-black/40'}`}>
-                                <Zap className="w-4 h-4" />
-                            </div>
-                            <span className={`text-[10px] font-heading uppercase tracking-widest ${makeItLive ? 'text-black font-bold' : 'text-black/40'}`}>
-                                Make it Live
-                            </span>
-                        </div>
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${makeItLive ? 'border-black bg-black' : 'border-black/20'}`}>
-                            {makeItLive && <Check className="w-3 h-3 text-neon-lime stroke-[3px]" />}
-                        </div>
-                    </button>
+
 
                     {/* Add to Cart Button */}
                     <div className="mt-auto pt-2">
