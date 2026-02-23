@@ -54,14 +54,19 @@ export default function Hero() {
                 style={{ backgroundImage: 'radial-gradient(var(--neon-lime) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <motion.div
-                className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-hot-pink/20 blur-[120px]"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute top-1/4 -left-20 w-[600px] h-[600px] rounded-full bg-slime-goo-pink/10 blur-[120px] gooey animate-float-slime"
+                animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                transition={{ duration: 10, repeat: Infinity }}
             />
             <motion.div
-                className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] rounded-full bg-neon-lime/20 blur-[120px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute bottom-1/4 -right-20 w-[600px] h-[600px] rounded-full bg-slime-goo-green/10 blur-[120px] gooey animate-float-slime"
+                style={{ animationDelay: '-3s' }}
+                animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
+                transition={{ duration: 10, repeat: Infinity }}
+            />
+            <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-slime-goo-blue/5 blur-[150px] gooey animate-float-slime"
+                style={{ animationDelay: '-5s' }}
             />
 
             {/* Grid Pattern Overlay */}
@@ -88,13 +93,15 @@ export default function Hero() {
                     <motion.h1
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-6xl sm:text-8xl md:text-9xl font-heading text-black mb-6 leading-none drop-shadow-[4px_4px_0px_var(--neon-lime)] tracking-tighter uppercase stroke-black"
+                        className="text-6xl sm:text-8xl md:text-9xl font-heading text-black mb-6 leading-none tracking-tighter uppercase stroke-black drop-shadow-[5px_5px_0px_var(--neon-lime)]"
                     >
-                        {headline.split(' ').map((word, i) => (
-                            <span key={i}>
-                                {i === 1 ? <><br /> <span className="text-electric-blue italic">{word}</span></> : word}
-                            </span>
-                        ))}
+                        <span className="inline-block animate-float-slime">
+                            {headline.split(' ').map((word, i) => (
+                                <span key={i}>
+                                    {i === 1 ? <><br /> <span className="text-electric-blue italic">{word}</span></> : word}
+                                </span>
+                            ))}
+                        </span>
                     </motion.h1>
 
                     <p className="text-xl md:text-2xl text-vibrant-red font-heading uppercase tracking-widest mb-12">

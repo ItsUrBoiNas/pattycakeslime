@@ -48,7 +48,8 @@ export default function ShopSection() {
     };
 
     return (
-        <section id="shop" className="py-24 px-4 bg-slime-purple overflow-hidden relative">
+        <section id="shop" className="py-24 px-4 bg-white overflow-hidden relative">
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(var(--slime-goo-orange) 2px, transparent 2px)', backgroundSize: '60px 60px' }} />
             {/* Top Drip (Already handled by Hero's bottom drip visually if they match, but let's add a top drip for safety if needed, or rely on the previous section's overlap) 
                 Actually, the SVG in Hero points DOWN INTO this section. So this section just needs the bg color.
             */}
@@ -63,7 +64,7 @@ export default function ShopSection() {
                         <Sparkles className="w-4 h-4 fill-current" />
                         Official Menu
                     </div>
-                    <h2 className="text-5xl md:text-8xl font-heading text-black tracking-widest leading-none drop-shadow-[4px_4px_0px_var(--neon-lime)] uppercase stroke-black">
+                    <h2 className="text-5xl md:text-8xl font-heading text-black tracking-widest leading-none drop-shadow-[6px_6px_0px_var(--slime-goo-pink)] uppercase stroke-black animate-float-slime">
                         PICK YOUR <span className="text-electric-blue">FLAVOR</span>
                     </h2>
                 </motion.div>
@@ -110,9 +111,9 @@ export default function ShopSection() {
                 </motion.div>
             </div>
 
-            {/* Bottom Drip Divider */}
+            {/* Bottom Slime Drip Divider */}
             <div className="absolute bottom-0 left-0 w-full leading-none z-20 transform rotate-180">
-                <svg className="w-full h-12 md:h-24 text-slime-blue fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <svg className="w-full h-12 md:h-24 text-slime-pink fill-current animate-drip" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
                 </svg>
             </div>

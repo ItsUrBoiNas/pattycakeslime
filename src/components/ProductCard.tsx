@@ -171,24 +171,27 @@ export default function ProductCard({
                     <div className="mt-auto pt-2">
                         <motion.button
                             onClick={handleAddToCart}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`w-full flex items-center justify-center gap-2 font-heading py-4 rounded-xl border-2 border-black transition-all ${added
+                            whileHover={{ scale: 1.05, rotate: [0, -1, 1, 0] }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`w-full flex items-center justify-center gap-2 font-heading py-4 rounded-2xl border-2 border-black transition-all relative overflow-hidden group/btn ${added
                                 ? 'bg-green-500 text-white border-green-600'
-                                : 'bg-bright-yellow text-black shadow-[4px_4px_0px_var(--vibrant-red)] hover:shadow-none'
+                                : 'bg-neon-lime text-black shadow-[4px_4px_0px_#000] hover:shadow-none'
                                 }`}
                         >
-                            {added ? (
-                                <>
-                                    <Check className="w-5 h-5" />
-                                    ADDED!
-                                </>
-                            ) : (
-                                <>
-                                    <ShoppingCart className="w-5 h-5" />
-                                    ADD TO CART
-                                </>
-                            )}
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
+                            <span className="relative z-10 flex items-center gap-2">
+                                {added ? (
+                                    <>
+                                        <Check className="w-5 h-5" />
+                                        ADDED!
+                                    </>
+                                ) : (
+                                    <>
+                                        <ShoppingCart className="w-5 h-5" />
+                                        ADD TO CART
+                                    </>
+                                )}
+                            </span>
                         </motion.button>
                     </div>
                 </div>

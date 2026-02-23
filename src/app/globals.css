@@ -15,6 +15,12 @@
   --slime-blue: #e0faff;
   --slime-green: #f0fdf4;
   --slime-purple: #f3e8ff;
+
+  /* Slime Gooey Colors */
+  --slime-goo-green: #32CD32;
+  --slime-goo-orange: #FF8C00;
+  --slime-goo-pink: #FF1493;
+  --slime-goo-blue: #1E90FF;
 }
 
 @theme inline {
@@ -30,6 +36,10 @@
   --color-slime-blue: var(--slime-blue);
   --color-slime-green: var(--slime-green);
   --color-slime-purple: var(--slime-purple);
+  --color-slime-goo-green: var(--slime-goo-green);
+  --color-slime-goo-orange: var(--slime-goo-orange);
+  --color-slime-goo-pink: var(--slime-goo-pink);
+  --color-slime-goo-blue: var(--slime-goo-blue);
   --font-heading: var(--font-titan-one);
   --font-body: var(--font-fredoka);
 }
@@ -125,4 +135,29 @@ h6 {
 
 .animate-flicker {
   animation: flicker 3s linear infinite;
+}
+/* Gooey Filter */
+.gooey {
+  filter: url('#goo');
+}
+
+@keyframes float-slime {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(10px) rotate(-2deg); }
+}
+
+.animate-float-slime {
+  animation: float-slime 6s ease-in-out infinite;
+}
+
+@keyframes drip {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(1.1); }
+  100% { transform: scaleY(1); }
+}
+
+.animate-drip {
+  animation: drip 4s ease-in-out infinite transform;
+  transform-origin: top;
 }

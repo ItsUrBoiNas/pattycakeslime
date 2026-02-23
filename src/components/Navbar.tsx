@@ -27,7 +27,7 @@ export default function Navbar() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 120, damping: 20 }}
-            className="fixed top-0 left-0 right-0 z-[100] bg-slime-purple/90 backdrop-blur-md border-b-4 border-electric-blue"
+            className="fixed top-0 left-0 right-0 z-[100] bg-white/80 backdrop-blur-md border-b-4 border-neon-lime"
         >
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-20">
@@ -144,6 +144,13 @@ export default function Navbar() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.nav>
+
+            {/* Dripping Slime Bottom Edge */}
+            <div className="absolute top-full left-0 w-full leading-none overflow-hidden h-8 pointer-events-none">
+                <svg className="w-full h-12 text-white/80 fill-current animate-drip" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"></path>
+                </svg>
+            </div>
+        </motion.nav >
     );
 }

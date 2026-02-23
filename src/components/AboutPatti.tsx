@@ -40,7 +40,7 @@ export default function AboutPatti() {
                 >
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Creator Profile */}
-                        <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-hot-pink/20 to-neon-lime/20 overflow-hidden">
+                        <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-slime-goo-pink/40 to-slime-goo-green/40 overflow-hidden">
                             <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
                                 <span className="text-[20rem] font-heading select-none">LIVE</span>
                             </div>
@@ -52,17 +52,17 @@ export default function AboutPatti() {
                                         rotate: [0, 2, -2, 0]
                                     }}
                                     transition={{ duration: 4, repeat: Infinity }}
-                                    className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 drop-shadow-[10px_10px_0px_var(--neon-lime)]"
+                                    className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-full border-4 border-black overflow-hidden bg-black shadow-[10px_10px_0px_var(--neon-lime)]"
                                 >
                                     {imageError ? (
-                                        <div className="w-full h-full flex flex-col items-center justify-center bg-white/20 rounded-full border-4 border-white backdrop-blur-sm">
-                                            <Zap className="w-24 h-24 text-white drop-shadow-lg" />
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-white/40 backdrop-blur-md animate-float-slime">
+                                            <Zap className="w-24 h-24 text-white drop-shadow-2xl fill-current" />
                                         </div>
                                     ) : (
                                         <img
                                             src="/logo.png"
                                             alt="PattiCake Slime Logo"
-                                            className="w-full h-full object-contain"
+                                            className="w-full h-full object-cover"
                                             onError={() => setImageError(true)}
                                         />
                                     )}
