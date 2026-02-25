@@ -46,7 +46,7 @@ export default function CharmGallery() {
                         ADD-ON <span className="text-vibrant-red">CHARMS</span>
                     </h2>
                     <p className="text-black/60 font-body max-w-lg mx-auto">
-                        Make your slime unique! Add these to your live build or pre-made order.
+                        Make your slime unique!
                     </p>
                 </div>
 
@@ -76,12 +76,6 @@ export default function CharmGallery() {
                             <h3 className="font-heading text-black text-xs mb-1 uppercase tracking-tighter">{charm.name}</h3>
                             {/* Price tag removed */}
 
-                            <motion.button
-                                whileTap={{ scale: 0.9 }}
-                                className="bg-white rounded-full p-2 text-black border-2 border-black group-hover:bg-neon-lime transition-colors"
-                            >
-                                <Plus className="w-4 h-4" />
-                            </motion.button>
                         </motion.div>
                     ))}
                 </div>

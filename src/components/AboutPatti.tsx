@@ -31,32 +31,29 @@ export default function AboutPatti() {
     }, []);
 
     return (
-        <section id="about" className="py-24 px-4 bg-background">
-            <div className="max-w-6xl mx-auto">
+        <section id="about" className="py-24 px-4 bg-white">
+            <div className="max-w-5xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    className="bg-white border-4 border-black rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_var(--electric-blue)]"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    className="bg-white border rounded-[2rem] overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border-sky-blue/20"
                 >
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Creator Profile */}
-                        <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-slime-goo-pink/40 to-slime-goo-green/40 overflow-hidden">
-                            <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
-                                <span className="text-[20rem] font-heading select-none">LIVE</span>
-                            </div>
+                        <div className="relative aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-sky-blue/10 to-transparent overflow-hidden border-r border-sky-blue/10">
 
                             <div className="relative z-10 text-center">
                                 <motion.div
                                     animate={{
-                                        scale: [1, 1.05, 1],
-                                        rotate: [0, 2, -2, 0]
+                                        scale: [1, 1.02, 1],
+                                        rotate: [0, 1, -1, 0]
                                     }}
-                                    transition={{ duration: 4, repeat: Infinity }}
-                                    className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-full border-4 border-black overflow-hidden bg-black shadow-[10px_10px_0px_var(--neon-lime)]"
+                                    transition={{ duration: 6, repeat: Infinity }}
+                                    className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-full border-4 border-white overflow-hidden bg-white shadow-lg"
                                 >
                                     {imageError ? (
-                                        <div className="w-full h-full flex flex-col items-center justify-center bg-white/40 backdrop-blur-md animate-float-slime">
-                                            <Zap className="w-24 h-24 text-white drop-shadow-2xl fill-current" />
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 backdrop-blur-md">
+                                            <Zap className="w-16 h-16 text-sky-blue/40 fill-current" />
                                         </div>
                                     ) : (
                                         <img
@@ -67,38 +64,38 @@ export default function AboutPatti() {
                                         />
                                     )}
                                 </motion.div>
-                                <div className="bg-black/80 backdrop-blur-md px-6 py-2 rounded-xl border border-white/20">
-                                    <p className="text-white font-heading text-lg tracking-[0.2em] uppercase">PattiCakeSlime</p>
+                                <div className="bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-sky-blue/20 shadow-sm inline-block">
+                                    <p className="text-black font-heading text-sm font-bold tracking-[0.1em] uppercase">PattiCakeSlime</p>
                                 </div>
                             </div>
 
                             <div className="absolute top-8 left-8 flex gap-2">
-                                <div className="bg-red-600 px-3 py-1 rounded font-heading text-[10px] text-white">LIVE</div>
-                                <div className="bg-white px-3 py-1 rounded font-heading text-[10px] text-black shadow-[2px_2px_0px_var(--neon-lime)]">CREATOR</div>
+                                <div className="bg-red-500 px-3 py-1 rounded-full font-heading text-[10px] text-white font-bold uppercase tracking-wider">LIVE</div>
+                                <div className="bg-sky-blue px-3 py-1 rounded-full font-heading text-[10px] text-white font-bold uppercase tracking-wider shadow-sm">CREATOR</div>
                             </div>
                         </div>
 
                         {/* Story */}
-                        <div className="p-8 md:p-16 flex flex-col justify-center bg-white">
-                            <div className="flex items-center gap-3 mb-8">
-                                <Zap className="w-8 h-8 text-black fill-current" />
-                                <h2 className="text-4xl md:text-6xl font-heading text-black leading-none drop-shadow-[4px_4px_0px_var(--neon-lime)] stroke-black">
-                                    THE <span className="text-electric-blue italic">PATTICAKE</span> WAY
+                        <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white">
+                            <div className="flex items-center gap-3 mb-6">
+                                <Zap className="w-6 h-6 text-button-orange fill-current" />
+                                <h2 className="text-3xl md:text-5xl font-heading text-black font-black uppercase tracking-wide leading-tight">
+                                    THE <span className="text-sky-blue italic font-normal">PATTICAKE</span> WAY
                                 </h2>
                             </div>
 
-                            <div className="space-y-6 text-lg text-black/80 font-body leading-relaxed whitespace-pre-wrap font-medium">
+                            <div className="space-y-6 text-lg text-black/70 font-body leading-relaxed whitespace-pre-wrap">
                                 {aboutText}
                             </div>
 
-                            <div className="mt-12 flex flex-wrap gap-4">
-                                <div className="flex items-center gap-2 bg-gray-100 border border-black/10 px-4 py-2 rounded-xl">
-                                    <Camera className="w-4 h-4 text-electric-blue" />
-                                    <span className="text-xs font-heading text-black uppercase tracking-wider">TikTok Sensation</span>
+                            <div className="mt-10 flex flex-wrap gap-4">
+                                <div className="flex items-center gap-2 bg-sky-blue/10 text-sky-blue px-4 py-2 rounded-full border border-sky-blue/20">
+                                    <Camera className="w-4 h-4" />
+                                    <span className="text-xs font-heading font-bold uppercase tracking-wider">TikTok Sensation</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-gray-100 border border-black/10 px-4 py-2 rounded-xl">
-                                    <Heart className="w-4 h-4 text-vibrant-red" />
-                                    <span className="text-xs font-heading text-black uppercase tracking-wider">Handmade Live</span>
+                                <div className="flex items-center gap-2 bg-button-orange/10 text-orange-600 px-4 py-2 rounded-full border border-button-orange/20">
+                                    <Heart className="w-4 h-4" />
+                                    <span className="text-xs font-heading font-bold uppercase tracking-wider">Handmade Live</span>
                                 </div>
                             </div>
                         </div>

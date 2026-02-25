@@ -154,9 +154,9 @@ export default function PattiAdmin() {
                     <h1 className="text-2xl text-neon-lime drop-shadow-[0_2px_0px_#ff00ff] uppercase italic leading-tight">
                         Patti's<br />Dashboard
                     </h1>
-                    <Link href="/" className="md:hidden text-white/40 hover:text-neon-lime">
+                    <a href="/" className="md:hidden text-white/40 hover:text-neon-lime">
                         <Home className="w-6 h-6" />
-                    </Link>
+                    </a>
                 </div>
 
                 <nav className="space-y-2">
@@ -179,10 +179,10 @@ export default function PattiAdmin() {
                 </nav>
 
                 <div className="mt-auto pt-8 hidden md:block">
-                    <Link href="/" className="flex items-center gap-3 text-white/40 hover:text-white transition-colors px-4">
+                    <a href="/" className="flex items-center gap-3 text-white/40 hover:text-white transition-colors px-4">
                         <Home className="w-5 h-5" />
                         <span className="text-sm">Back to Website</span>
-                    </Link>
+                    </a>
                 </div>
             </div>
 
@@ -199,9 +199,12 @@ export default function PattiAdmin() {
                         <div className="max-w-xl">
                             <h2 className="text-3xl font-heading text-white mb-8 border-b border-white/10 pb-4">Live Status Control</h2>
                             <div className="bg-black/50 border-4 border-white p-8 rounded-3xl shadow-[10px_10px_0px_#39FF14]">
-                                <label className="block text-neon-lime mb-4 text-xl tracking-widest uppercase italic">
-                                    Badge Text
+                                <label className="block text-neon-lime mb-1 text-xl tracking-widest uppercase italic">
+                                    LIVE TEXT CONTROL
                                 </label>
+                                <p className="text-white/70 font-body text-sm mb-4">
+                                    Tell people when you're live so when people are on your website they can see if you're live.
+                                </p>
 
                                 <input
                                     type="text"

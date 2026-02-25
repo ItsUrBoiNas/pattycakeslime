@@ -234,7 +234,7 @@ function EditProductModal({ product, onClose, onSave }: { product: Product; onCl
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-white/60 ml-1">Tag</label>
+                        <label className="text-sm font-semibold text-white/60 ml-1">Color</label>
                         <input
                             type="text"
                             value={editedProduct.tag || ""}
@@ -366,7 +366,7 @@ function AddProductModal({ onClose, onSuccess }: { onClose: () => void; onSucces
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-white/60 ml-1">Tag</label>
+                        <label className="text-sm font-semibold text-white/60 ml-1">Color</label>
                         <input
                             type="text"
                             value={newProduct.tag}

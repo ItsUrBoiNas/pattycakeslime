@@ -35,7 +35,7 @@ export default function ViralManager() {
             .order("created_at", { ascending: false });
 
         if (data) setMoments(data);
-        if (error) console.error("Error fetching moments:", error);
+        if (error) console.error("Error fetching moments:", error.message || error);
         setLoading(false);
     };
 
@@ -119,7 +119,7 @@ export default function ViralManager() {
                     />
                     <input
                         type="text"
-                        placeholder="Fake View Count (e.g. 2.5M)"
+                        placeholder="View Count (e.g. 2.5M)"
                         value={views}
                         onChange={(e) => setViews(e.target.value)}
                         className="bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-neon-lime outline-none"

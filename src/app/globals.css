@@ -21,6 +21,10 @@
   --slime-goo-orange: #FF8C00;
   --slime-goo-pink: #FF1493;
   --slime-goo-blue: #1E90FF;
+
+  /* Cloud Design Colors */
+  --sky-blue: #2389B8;
+  --button-orange: #FDB863;
 }
 
 @theme inline {
@@ -40,6 +44,8 @@
   --color-slime-goo-orange: var(--slime-goo-orange);
   --color-slime-goo-pink: var(--slime-goo-pink);
   --color-slime-goo-blue: var(--slime-goo-blue);
+  --color-sky-blue: var(--sky-blue);
+  --color-button-orange: var(--button-orange);
   --font-heading: var(--font-titan-one);
   --font-body: var(--font-fredoka);
 }
@@ -79,6 +85,29 @@ h6 {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Chunky Typography utility */
+.chunky-text {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000,
+    4px 4px 0px rgba(0, 0, 0, 0.1);
+  /* Deep soft shadow */
 }
 
 /* Glassmorphism utility */
@@ -136,15 +165,26 @@ h6 {
 .animate-flicker {
   animation: flicker 3s linear infinite;
 }
+
 /* Gooey Filter */
 .gooey {
   filter: url('#goo');
 }
 
 @keyframes float-slime {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-15px) rotate(2deg); }
-  66% { transform: translateY(10px) rotate(-2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+
+  66% {
+    transform: translateY(10px) rotate(-2deg);
+  }
 }
 
 .animate-float-slime {
@@ -152,9 +192,17 @@ h6 {
 }
 
 @keyframes drip {
-  0% { transform: scaleY(1); }
-  50% { transform: scaleY(1.1); }
-  100% { transform: scaleY(1); }
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.1);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 .animate-drip {
