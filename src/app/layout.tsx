@@ -25,10 +25,35 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://patticakeslime.com"),
   title: "PattiCakeSlime | Handmade Slime by Patti 🍰",
   description:
     "The squishiest, stretchiest, most satisfying handmade slime — crafted with love by Patti. Shop cloud slime, butter slime, crunchy slime & more!",
   keywords: ["slime", "handmade slime", "cloud slime", "butter slime", "slime shop", "PattiCakeSlime"],
+  openGraph: {
+    title: "PattiCakeSlime | Handmade Slime by Patti 🍰",
+    description:
+      "The squishiest, stretchiest, most satisfying handmade slime — crafted with love by Patti. Shop cloud slime, butter slime, crunchy slime & more!",
+    url: "https://patticakeslime.com",
+    siteName: "PattiCakeSlime",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "PattiCakeSlime Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PattiCakeSlime | Handmade Slime by Patti 🍰",
+    description:
+      "The squishiest, stretchiest, most satisfying handmade slime — crafted with love by Patti.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
@@ -41,6 +66,24 @@ export default function RootLayout({
       <body
         className={`${fredoka.variable} ${nunito.variable} ${titanOne.variable} antialiased bg-background text-foreground`}
       >
+        {/* JSON-LD Structured Data for Rich Results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "PattiCakeSlime",
+              description:
+                "Handmade slime shop — cloud slime, butter slime, crunchy slime & more, crafted with love by Patti.",
+              url: "https://patticakeslime.com",
+              logo: "https://patticakeslime.com/logo.png",
+              image: "https://patticakeslime.com/logo.png",
+              priceRange: "$",
+              sameAs: [],
+            }),
+          }}
+        />
         <CartProvider>
           <Navbar />
           <CartDrawer />

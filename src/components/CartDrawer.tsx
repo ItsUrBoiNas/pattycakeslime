@@ -5,7 +5,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+
+function CartItemImage({ src, alt }: { src: string; alt: string }) {
+    const [error, setError] = useState(false);
+    return (
+        <div className="relative w-full h-full">
+            {error ? (
+                <div className="w-full h-full flex items-center justify-center bg-white/5">
+                    <span className="text-white/20 font-heading text-xs uppercase tracking-widest text-center select-none px-2">
+                        Slime
+                    </span>
+                </div>
+            ) : (
+                <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover"
+                    onError={() => setError(true)}
+                />
+            )}
+        </div>
+    );
+}
 
 export default function CartDrawer() {
     const { isCartOpen, toggleCart, items, removeFromCart, updateQuantity, cartTotal, subtotal, shippingCost } = useCart();
@@ -100,13 +123,8 @@ export default function CartDrawer() {
                                         className="flex gap-4 bg-white/5 p-4 rounded-xl border border-white/5 relative group"
                                     >
                                         {/* Image */}
-                                        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-black/20 flex-shrink-0">
-                                            <Image
-                                                src={item.image}
-                                                alt={item.name}
-                                                fill
-                                                className="object-cover"
-                                            />
+                                        <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0 bg-black/20">
+                                            <CartItemImage src={item.image} alt={item.name} />
                                         </div>
 
                                         {/* Details */}

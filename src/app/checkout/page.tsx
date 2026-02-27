@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function CheckoutPage() {
     const { items, cartTotal, clearCart } = useCart();
     const [isClient, setIsClient] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -21,7 +22,7 @@ export default function CheckoutPage() {
         );
     }
 
-    if (items.length === 0) {
+    if (items.length === 0 && !isSuccess) {
         return (
             <div className="min-h-screen bg-pink-50 flex flex-col items-center justify-center p-4">
                 <h1 className="text-3xl font-heading text-pink-600 mb-4">Your Cart is Empty!</h1>
@@ -68,6 +69,7 @@ export default function CheckoutPage() {
                     items={orderItems}
                     totalPrice={cartTotal}
                     onPaymentComplete={() => {
+                        setIsSuccess(true);
                         clearCart();
                         // Optional: Redirect to home after a delay or show success message on this page (handled by component)
                     }}
@@ -75,7 +77,7 @@ export default function CheckoutPage() {
 
                 <div className="mt-8 text-center">
                     <Link href="/" className="text-pink-500 hover:text-pink-700 text-sm font-medium">
-                        &larr; Cntinue Shopping
+                        &larr; Continue Shopping
                     </Link>
                 </div>
             </div>

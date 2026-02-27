@@ -121,20 +121,21 @@ export default function Navbar() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, x: 100 }}
+                        initial={{ opacity: 0, x: "100%" }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 100 }}
-                        className="fixed inset-0 top-20 bg-background z-40 md:hidden p-8"
+                        exit={{ opacity: 0, x: "100%" }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="fixed inset-0 top-20 bg-white/95 backdrop-blur-xl z-40 md:hidden p-8 border-t-2 border-black/5"
                     >
-                        <div className="flex flex-col gap-8">
+                        <div className="flex flex-col gap-8 h-full">
                             {navLinks.map((link, i) => (
                                 <motion.a
                                     key={link.label}
                                     href={link.href}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="text-4xl font-heading text-black tracking-widest uppercase"
+                                    className="text-4xl font-heading text-black tracking-widest uppercase py-2 border-b-2 border-black/5 hover:text-neon-lime transition-colors"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {link.label}

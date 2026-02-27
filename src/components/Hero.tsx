@@ -56,7 +56,7 @@ export default function Hero() {
         <motion.svg
             viewBox="0 0 24 24"
             fill="currentColor"
-            className={`text-white absolute drop-shadow-lg ${className}`}
+            className={`text-white absolute drop-shadow-lg will-change-transform ${className}`}
             style={{ width: `${scale * 100}px`, height: `${scale * 100}px` }}
             animate={{
                 x: ["-10%", "10%", "-10%"],
@@ -76,7 +76,7 @@ export default function Hero() {
     // Floating Sparkle Component
     const Sparkle = ({ className, delay = 0 }: { className: string, delay?: number }) => (
         <motion.div
-            className={`absolute rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] ${className}`}
+            className={`absolute rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] will-change-transform ${className}`}
             animate={{
                 y: [0, -50, 0],
                 opacity: [0, 1, 0],
@@ -97,17 +97,17 @@ export default function Hero() {
 
             {/* Glowing Slime Ambient Orbs */}
             <motion.div
-                className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full bg-slime-goo-pink/30 blur-[120px] pointer-events-none mix-blend-screen"
+                className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full bg-slime-goo-pink/30 blur-[120px] pointer-events-none mix-blend-screen will-change-transform"
                 animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0], opacity: [0.6, 0.9, 0.6] }}
                 transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-                className="absolute bottom-[10%] right-[10%] w-[700px] h-[700px] rounded-full bg-slime-goo-green/30 blur-[150px] pointer-events-none mix-blend-screen"
+                className="absolute bottom-[10%] right-[10%] w-[700px] h-[700px] rounded-full bg-slime-goo-green/30 blur-[150px] pointer-events-none mix-blend-screen will-change-transform"
                 animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90], opacity: [0.5, 0.8, 0.5] }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             />
             <motion.div
-                className="absolute top-[40%] left-[40%] w-[500px] h-[500px] rounded-full bg-slime-goo-blue/40 blur-[130px] pointer-events-none mix-blend-screen"
+                className="absolute top-[40%] left-[40%] w-[500px] h-[500px] rounded-full bg-slime-goo-blue/40 blur-[130px] pointer-events-none mix-blend-screen will-change-transform"
                 animate={{ scale: [0.8, 1.1, 0.8], opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             />
@@ -194,8 +194,8 @@ export default function Hero() {
                         >
                             {/* Shine effect over button */}
                             <motion.div
-                                className="absolute top-0 -left-[100%] w-[50%] h-full bg-white/30 transform -skew-x-12"
-                                animate={{ left: ["-100%", "200%"] }}
+                                className="absolute top-0 left-0 w-[50%] h-full bg-white/30 transform -skew-x-12 will-change-transform"
+                                animate={{ x: ["-200%", "400%"] }}
                                 transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
                             />
                             <ShoppingBag className="w-6 h-6 fill-current relative z-10" />

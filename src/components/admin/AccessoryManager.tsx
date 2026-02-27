@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Trash2, Edit3, X, Gem, ToggleLeft, ToggleRight, Image as ImageIcon, Upload } from "lucide-react";
+
 import { supabase } from "@/lib/supabase";
 
 interface Accessory {
@@ -37,6 +38,7 @@ export default function AccessoryManager() {
     const [accessories, setAccessories] = useState<Accessory[]>([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingAccessory, setEditingAccessory] = useState<Accessory | null>(null);
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
 
     useEffect(() => {
         loadAccessories();
@@ -259,12 +261,9 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
 
         let imageUrl = "";
         if (imageFile) {
-            try {
-                imageUrl = await uploadImage(imageFile);
-            } catch (error) {
-                alert("Error uploading image: " + error);
-                setIsAdding(false);
-                return;
+            const uploaded = await uploadImage(imageFile);
+            if (uploaded) {
+                imageUrl = uploaded;
             }
         }
 

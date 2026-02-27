@@ -44,14 +44,24 @@ export default function PattiAdmin() {
         fetchStatus();
     }, []);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (username === "patticakeslime" && password === "patticakeslime") {
-            setIsAuthorized(true);
-            sessionStorage.setItem("patti_admin_auth", "true");
-            setAuthError("");
-        } else {
-            setAuthError("Incorrect username or password! 🛑");
+        setAuthError("");
+        try {
+            const res = await fetch("/api/admin/auth", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setIsAuthorized(true);
+                sessionStorage.setItem("patti_admin_auth", "true");
+            } else {
+                setAuthError("Incorrect username or password! 🛑");
+            }
+        } catch {
+            setAuthError("Login failed. Please try again.");
         }
     };
 

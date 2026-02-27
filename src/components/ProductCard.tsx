@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useCart, Accessory } from "@/context/CartContext";
 
 interface ProductCardProps {
+    id?: string;
     name: string;
     price: number;
     image: string;
@@ -18,6 +19,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+    id,
     name,
     price,
     image,
@@ -74,7 +76,7 @@ export default function ProductCard({
         const selectedAccessoryObjects = accessories.filter(a => selectedAccessories.includes(a.id));
 
         addToCart(
-            { name, price, image },
+            { id, name, price, image },
             selectedAccessoryObjects
         );
 
@@ -120,6 +122,7 @@ export default function ProductCard({
                                 alt={name}
                                 width={400}
                                 height={400}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                 className="object-contain w-full h-full"
                                 onError={() => setImageError(true)}
                             />

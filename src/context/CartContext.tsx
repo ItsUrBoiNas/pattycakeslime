@@ -76,9 +76,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const addToCart = (product: any, accessories: Accessory[]) => {
         // Create a unique ID based on product ID and options
-        // Since we don't have real product IDs in the ProductCard yet, we'll use name as part of the ID
         const accessoryIds = accessories.map(a => a.id).sort().join("-");
-        const uniqueId = `${product.name}-${accessoryIds}`;
+        const baseId = product.id || product.name;
+        const uniqueId = `${baseId}-${accessoryIds}`;
 
         setItems(prev => {
             const existingItem = prev.find(item => item.id === uniqueId);

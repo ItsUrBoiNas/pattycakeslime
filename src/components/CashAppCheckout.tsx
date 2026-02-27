@@ -156,7 +156,7 @@ export default function CashAppCheckout({ items, totalPrice, onPaymentComplete }
                                     <input
                                         type="tel"
                                         name="phoneNumber"
-                                        placeholder="Phone Number (for SMS updates)"
+                                        placeholder="Phone Number"
                                         value={formData.phoneNumber}
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all placeholder:text-gray-400"
@@ -332,7 +332,7 @@ export default function CashAppCheckout({ items, totalPrice, onPaymentComplete }
                             </div>
 
                             <p className="text-gray-500 text-sm px-4">
-                                Once confirmed, you will receive your tracking number via email at <span className="text-black font-medium">{formData.customerName.replace(/\s/g, '').toLowerCase() + '@email.com'}</span> (example).
+                                Once confirmed, we will begin processing your order.
                                 <br />
                                 <br />
                                 <span className="text-xs text-gray-400">Order ID: #{Math.floor(Math.random() * 10000) + 1000}</span>
