@@ -99,15 +99,15 @@ export default function AccessoryManager() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-heading text-white">Accessories & Add-ons</h2>
-                    <p className="text-white/40 text-sm font-body">Manage free toppings, charms, and extras ({accessories.length} items)</p>
+                    <h2 className="text-2xl font-heading text-white">Your Toppings & Add-ons</h2>
+                    <p className="text-white/40 text-sm font-body">Turn toppings ON so people can add them to their slimes, or turn them OFF. ({accessories.length} items)</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
                     className="bg-neon-lime text-black font-heading px-6 py-3 rounded-2xl hover:scale-105 hover:shadow-[0_0_20px_rgba(57,255,20,0.3)] active:scale-95 transition-all flex items-center gap-2 text-sm"
                 >
                     <Plus className="w-5 h-5" />
-                    New Accessory
+                    Add a New Topping
                 </button>
             </div>
 
@@ -136,7 +136,11 @@ export default function AccessoryManager() {
                                 </div>
                             </div>
                             <button onClick={() => toggleActive(acc)} className="text-white/40 hover:text-white transition-colors">
-                                {acc.is_active ? <ToggleRight className="w-8 h-8 text-neon-lime" /> : <ToggleLeft className="w-8 h-8" />}
+                                {acc.is_active ? (
+                                    <div className="flex items-center gap-1 text-neon-lime font-bold text-xs uppercase"><ToggleRight className="w-8 h-8" /> ON</div>
+                                ) : (
+                                    <div className="flex items-center gap-1 text-white/40 font-bold text-xs uppercase"><ToggleLeft className="w-8 h-8" /> OFF</div>
+                                )}
                             </button>
                         </div>
 
@@ -218,14 +222,14 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
 
 
                     <div>
-                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
+                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Photo</label>
                         <div className="flex items-center gap-3">
                             {edited.image_url && !imageFile && (
                                 <img src={edited.image_url} alt="Current" className="w-12 h-12 object-cover rounded-lg border border-white/10" />
                             )}
                             <label className="flex-1 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
                                 <Upload className="w-4 h-4" />
-                                <span className="text-xs font-bold">{imageFile ? "Change Image" : "Upload Image"}</span>
+                                <span className="text-xs font-bold">{imageFile ? "Change Photo" : "📸 Choose a Photo"}</span>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -285,7 +289,7 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                 className="glass p-8 rounded-[32px] border border-white/10 max-w-sm w-full"
             >
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-heading text-white">New Accessory</h2>
+                    <h2 className="text-xl font-heading text-white">Add a New Topping</h2>
                     <button onClick={onClose} className="text-white/60 hover:text-white">
                         <X className="w-5 h-5" />
                     </button>
@@ -304,11 +308,11 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
 
 
                     <div>
-                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Image</label>
+                        <label className="text-xs font-bold text-white/40 uppercase ml-1">Photo</label>
                         <div className="flex items-center gap-3">
                             <label className="flex-1 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
                                 <Upload className="w-4 h-4" />
-                                <span className="text-xs font-bold">{imageFile ? "Change Image" : "Upload Image"}</span>
+                                <span className="text-xs font-bold">{imageFile ? "Change Photo" : "📸 Choose a Photo"}</span>
                                 <input
                                     type="file"
                                     accept="image/*"

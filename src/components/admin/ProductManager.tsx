@@ -91,15 +91,15 @@ export default function ProductManager() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-heading text-white">Cloud Menu</h2>
-                    <p className="text-white/40 text-sm font-body">Manage your slime inventory ({products.length} items)</p>
+                    <h2 className="text-2xl font-heading text-white">Your Slimes</h2>
+                    <p className="text-white/40 text-sm font-body">Here you can add new slimes, change prices, or delete slimes ({products.length} items)</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
                     className="bg-hot-pink text-white font-heading px-6 py-3 rounded-2xl hover:scale-105 hover:shadow-[0_0_20px_rgba(255,0,255,0.3)] active:scale-95 transition-all flex items-center gap-2 text-sm"
                 >
                     <Plus className="w-5 h-5" />
-                    New Slime
+                    Add a New Slime
                 </button>
             </div>
 
@@ -141,7 +141,7 @@ function ProductCard({ product, onDelete, onEdit }: { product: Product; onDelete
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5 }}
-            className="glass rounded-[2rem] border border-white/10 overflow-hidden group"
+            className="glass rounded-[2rem] border border-white/10 overflow-hidden group flex flex-col"
         >
             <div className="aspect-video bg-white/5 relative overflow-hidden">
                 {product.image_url ? (
@@ -151,20 +151,6 @@ function ProductCard({ product, onDelete, onEdit }: { product: Product; onDelete
                         <ImageIcon className="w-16 h-16" />
                     </div>
                 )}
-                <div className="absolute top-4 right-4 flex gap-2 opacity-100 translate-y-0 md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all">
-                    <button
-                        onClick={() => onEdit(product)}
-                        className="p-2.5 bg-deep-purple/90 backdrop-blur-md rounded-xl text-white hover:text-cyan-pop transition-colors shadow-xl"
-                    >
-                        <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => onDelete(product.id)}
-                        className="p-2.5 bg-deep-purple/90 backdrop-blur-md rounded-xl text-white hover:text-hot-pink transition-colors shadow-xl"
-                    >
-                        <Trash2 className="w-4 h-4" />
-                    </button>
-                </div>
                 {product.tag && (
                     <div className="absolute bottom-4 left-4">
                         <span className="bg-deep-purple/80 backdrop-blur-md text-[10px] font-bold text-white/60 px-2 py-1 rounded-md border border-white/10 uppercase tracking-widest">
@@ -173,14 +159,28 @@ function ProductCard({ product, onDelete, onEdit }: { product: Product; onDelete
                     </div>
                 )}
             </div>
-            <div className="p-6">
+            <div className="p-6 flex flex-col flex-1">
                 <div className="flex justify-between items-start mb-2">
                     <h3 className="font-heading text-lg text-white group-hover:text-cyan-pop transition-colors">{product.name}</h3>
                     <span className="text-neon-lime font-heading text-lg">${product.price.toFixed(2)}</span>
                 </div>
-                <p className="text-white/40 text-sm font-body mb-6 line-clamp-2">
+                <p className="text-white/40 text-sm font-body mb-6 line-clamp-2 flex-1">
                     {product.description || "No description"}
                 </p>
+                <div className="flex gap-2 mt-auto pt-4 border-t border-white/10">
+                    <button
+                        onClick={() => onEdit(product)}
+                        className="flex-1 p-3 bg-white/10 hover:bg-white/20 rounded-xl text-white hover:text-cyan-pop transition-colors font-bold text-sm flex items-center justify-center gap-2"
+                    >
+                        <Edit3 className="w-4 h-4" /> Edit Slime
+                    </button>
+                    <button
+                        onClick={() => onDelete(product.id)}
+                        className="flex-1 p-3 bg-red-500/10 hover:bg-red-500/20 rounded-xl text-red-400 hover:text-red-300 transition-colors font-bold text-sm flex items-center justify-center gap-2"
+                    >
+                        <Trash2 className="w-4 h-4" /> Delete
+                    </button>
+                </div>
             </div>
         </motion.div>
     );
@@ -253,14 +253,13 @@ function EditProductModal({ product, onClose, onSave }: { product: Product; onCl
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-white/60 ml-1">Image</label>
+                        <label className="text-sm font-semibold text-white/60 ml-1">Photo</label>
                         <div className="flex items-center gap-4">
                             {editedProduct.image_url && !imageFile && (
                                 <img src={editedProduct.image_url} alt="Current" className="w-16 h-16 object-cover rounded-lg border border-white/10" />
                             )}
-                            <label className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-colors">
-                                <Upload className="w-4 h-4" />
-                                <span className="text-sm">{imageFile ? "Change Image" : "Upload New Image"}</span>
+                            <label className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-4 py-2 rounded-xl flex flex-col items-center gap-2 transition-colors">
+                                <span className="flex items-center gap-2"><Upload className="w-4 h-4" /> {imageFile ? "Change Photo" : "📸 Choose a Photo from your Computer"}</span>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -387,11 +386,10 @@ function AddProductModal({ onClose, onSuccess }: { onClose: () => void; onSucces
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-white/60 ml-1">Image</label>
+                        <label className="text-sm font-semibold text-white/60 ml-1">Photo</label>
                         <div className="flex items-center gap-4">
-                            <label className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-colors w-full justify-center">
-                                <Upload className="w-4 h-4" />
-                                <span className="text-sm">{imageFile ? "Change Image" : "Upload Image"}</span>
+                            <label className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white px-4 py-2 rounded-xl flex flex-col items-center gap-2 transition-colors w-full justify-center">
+                                <span className="flex items-center gap-2 font-bold"><Upload className="w-4 h-4" /> {imageFile ? "Change Photo" : "📸 Choose a Photo from your Computer"}</span>
                                 <input
                                     type="file"
                                     accept="image/*"

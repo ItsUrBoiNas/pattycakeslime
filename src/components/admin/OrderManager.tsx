@@ -82,7 +82,7 @@ export default function OrderManager() {
     return (
         <div className="space-y-6">
             <h2 className="text-3xl font-heading text-white mb-8 border-b border-white/10 pb-4 flex justify-between items-center">
-                Incoming Orders
+                Your Customers' Orders
                 <span className="text-sm bg-neon-lime text-black px-3 py-1 rounded-full">{orders.length} Total</span>
             </h2>
 
@@ -121,8 +121,12 @@ export default function OrderManager() {
                                     <p className="text-sm text-green-400">{order.customerCashtag}</p>
                                 </div>
 
-                                <div className="text-white/40">
-                                    {expandedOrderId === order.id ? <ChevronUp /> : <ChevronDown />}
+                                <div className="text-white/60 flex items-center gap-2 font-body text-sm bg-white/5 py-2 px-4 rounded-xl hover:bg-white/10 transition-colors">
+                                    {expandedOrderId === order.id ? (
+                                        <>Close Details <ChevronUp className="w-4 h-4" /></>
+                                    ) : (
+                                        <>Click for Full Order Details <ChevronDown className="w-4 h-4" /></>
+                                    )}
                                 </div>
                             </div>
 
@@ -169,7 +173,7 @@ export default function OrderManager() {
                                                 </div>
 
                                                 <div>
-                                                    <h4 className="text-sm uppercase tracking-widest text-white/40 mb-2 font-bold">Update Status</h4>
+                                                    <h4 className="text-sm uppercase tracking-widest text-white/40 mb-2 font-bold">Change Order Status To:</h4>
                                                     <div className="flex gap-2">
                                                         {['Pending Payment', 'Paid', 'Shipped'].map((status) => (
                                                             <button
@@ -179,8 +183,8 @@ export default function OrderManager() {
                                                                     updateStatus(order.id, status);
                                                                 }}
                                                                 className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${order.status === status
-                                                                        ? 'bg-white text-black'
-                                                                        : 'bg-white/10 text-white hover:bg-white/20'
+                                                                    ? 'bg-white text-black'
+                                                                    : 'bg-white/10 text-white hover:bg-white/20'
                                                                     }`}
                                                             >
                                                                 {status}

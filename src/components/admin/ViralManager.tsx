@@ -99,19 +99,20 @@ export default function ViralManager() {
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-heading text-white border-b border-white/10 pb-4">
-                Manage Viral Moments
+                Your TikTok & Social Videos
             </h2>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-4">
-                <h3 className="text-xl font-heading text-neon-lime mb-4">
-                    {isEditing ? "Edit Video" : "Add New Video"}
+                <h3 className="text-xl font-heading text-neon-lime mb-2">
+                    {isEditing ? "Edit Video Info" : "Add a New Video to Your Site"}
                 </h3>
+                <p className="text-white/60 font-body text-sm mb-4">Add links to your videos here so they show up on the homepage.</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input
                         type="text"
-                        placeholder="Video Title (e.g. Satisfying Crunch)"
+                        placeholder="What is this video about? (e.g. Satisfying Crunch)"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         className="bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-neon-lime outline-none"
@@ -128,7 +129,7 @@ export default function ViralManager() {
 
                 <input
                     type="url"
-                    placeholder="Video URL (TikTok, YouTube Shorts, Instagram Reels)"
+                    placeholder="Paste the link to your video here (TikTok, YouTube, or Instagram)"
                     value={videoUrl}
                     onChange={(e) => setVideoUrl(e.target.value)}
                     className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-neon-lime outline-none"
@@ -170,15 +171,15 @@ export default function ViralManager() {
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => handleEdit(moment)}
-                                        className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-colors"
+                                        className="px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-bold"
                                     >
-                                        <Edit2 className="w-4 h-4" />
+                                        <Edit2 className="w-4 h-4" /> Edit
                                     </button>
                                     <button
                                         onClick={() => handleDelete(moment.id)}
-                                        className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                                        className="px-3 py-1.5 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-bold"
                                     >
-                                        <Trash2 className="w-4 h-4" />
+                                        <Trash2 className="w-4 h-4" /> Delete
                                     </button>
                                 </div>
                             </div>

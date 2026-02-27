@@ -87,9 +87,9 @@ export default function PattiAdmin() {
         { id: "live", label: "Live Control", icon: Radio },
         { id: "orders", label: "Orders", icon: ShoppingCart },
         { id: "shipping", label: "Shipping", icon: Truck },
-        { id: "products", label: "Slime Menu", icon: Package },
+        { id: "products", label: "Add/Edit Slimes", icon: Package },
         { id: "accessories", label: "Toppings", icon: Gem },
-        { id: "viral", label: "Viral Videos", icon: Video },
+        { id: "viral", label: "TikTok Videos", icon: Video },
         { id: "content", label: "Site Text", icon: Type },
         { id: "support", label: "Help", icon: LifeBuoy }
     ];
@@ -107,30 +107,30 @@ export default function PattiAdmin() {
                             <Lock className="w-10 h-10 text-black" />
                         </div>
                         <h1 className="text-3xl font-heading text-white uppercase italic tracking-tighter">
-                            Managers <span className="text-neon-lime">Only</span>
+                            Welcome to Your Shop, Patti
                         </h1>
-                        <p className="text-white/60 uppercase tracking-widest text-xs mt-2 font-bold">Authorized Access Only</p>
+                        <p className="text-white/60 uppercase tracking-widest text-xs mt-2 font-bold">Please log in below</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div>
-                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Username</label>
+                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Your Name</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 className="w-full bg-black border-2 border-white/20 p-4 rounded-2xl text-white focus:border-neon-lime outline-none transition-all placeholder:text-white/10"
-                                placeholder="Enter Username..."
+                                placeholder="Type your name here..."
                             />
                         </div>
                         <div>
-                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Password</label>
+                            <label className="block text-neon-lime text-xs uppercase tracking-widest mb-2 font-bold ml-1">Your Password</label>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-black border-2 border-white/20 p-4 rounded-2xl text-white focus:border-neon-lime outline-none transition-all placeholder:text-white/10"
-                                placeholder="Enter Password..."
+                                placeholder="Type your password here..."
                             />
                         </div>
 
@@ -148,7 +148,7 @@ export default function PattiAdmin() {
                             type="submit"
                             className="w-full bg-neon-lime text-black py-5 rounded-2xl font-bold uppercase tracking-widest text-lg shadow-[4px_4px_0px_white] hover:scale-[1.02] active:scale-[0.98] transition-all"
                         >
-                            Unlock Dashboard
+                            Log In to Shop
                         </button>
                     </form>
                 </motion.div>
@@ -210,10 +210,10 @@ export default function PattiAdmin() {
                             <h2 className="text-3xl font-heading text-white mb-8 border-b border-white/10 pb-4">Live Status Control</h2>
                             <div className="bg-black/50 border-4 border-white p-8 rounded-3xl shadow-[10px_10px_0px_#39FF14]">
                                 <label className="block text-neon-lime mb-1 text-xl tracking-widest uppercase italic">
-                                    LIVE TEXT CONTROL
+                                    SHOW A BADGE ON YOUR WEBSITE
                                 </label>
                                 <p className="text-white/70 font-body text-sm mb-4">
-                                    Tell people when you're live so when people are on your website they can see if you're live.
+                                    Type a message below (like "LIVE ON TIKTOK NOW") and push the green button. It will show up at the top of your website for everyone to see!
                                 </p>
 
                                 <input
@@ -231,7 +231,7 @@ export default function PattiAdmin() {
                                         className="w-full bg-neon-lime text-black py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 text-xl font-bold shadow-[4px_4px_0px_#fff]"
                                     >
                                         <Send className="w-6 h-6" />
-                                        {loading ? "UPDATING..." : "UPDATE STATUS"}
+                                        {loading ? "UPDATING..." : "TURN ON BADGE"}
                                     </button>
 
                                     <button
@@ -240,7 +240,7 @@ export default function PattiAdmin() {
                                         className="w-full bg-hot-pink text-white py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 text-xl font-bold shadow-[4px_4px_0px_#1a0b2e]"
                                     >
                                         <Trash2 className="w-6 h-6" />
-                                        HIDE BADGE
+                                        TURN OFF BADGE
                                     </button>
                                 </div>
                                 {message && (
