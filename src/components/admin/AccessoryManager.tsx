@@ -233,7 +233,7 @@ function EditAccessoryModal({ accessory, onClose, onSave }: { accessory: Accesso
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="hidden"
+                                    className="sr-only"
                                     onChange={(e) => setImageFile(e.target.files?.[0] || null)}
                                 />
                             </label>
@@ -316,7 +316,7 @@ function AddAccessoryModal({ onClose, onSuccess }: { onClose: () => void; onSucc
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="hidden"
+                                    className="sr-only"
                                     onChange={(e) => setImageFile(e.target.files?.[0] || null)}
                                 />
                             </label>

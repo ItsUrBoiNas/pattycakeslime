@@ -263,7 +263,7 @@ function EditProductModal({ product, onClose, onSave }: { product: Product; onCl
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="hidden"
+                                    className="sr-only"
                                     onChange={(e) => setImageFile(e.target.files?.[0] || null)}
                                 />
                             </label>
@@ -393,7 +393,7 @@ function AddProductModal({ onClose, onSuccess }: { onClose: () => void; onSucces
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="hidden"
+                                    className="sr-only"
                                     onChange={(e) => setImageFile(e.target.files?.[0] || null)}
                                 />
                             </label>
